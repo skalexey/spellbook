@@ -29,35 +29,30 @@ include_directories("include")
 
 add_executable (Spellbook ${SRC} ${HEADERS})
 
-# Setup VL dependencies
+# Setup dependencies
 
-if (NOT DMBCORE_DIR STREQUAL "")
-	set(DMBCORE_DIR "$ENV{HOME}/${DMBCORE_DIR}")
-	message("DMBCORE_DIR: ${DMBCORE_DIR}")
+if ("${DEPS}" STREQUAL "")
+	message("WARNING: DEPS is not specified. Take the default value")
+	set(DEPS "${PROJECT_SOURCE_DIR}/..")
 else()
-	message("WARNING: DMBCORE_DIR is not specified")
+	message("DEPS: ${DEPS}")
 endif()
 
-if (NOT VL_DIR STREQUAL "")
-	set(VL_DIR "$ENV{HOME}/${VL_DIR}")
-	message("VL_DIR: ${VL_DIR}")
+if ("${DMBCORE_DIR}" STREQUAL "")
+	set(DMBCORE_DIR "${DEPS}/DataModelBuilder/Core")
 else()
-	message("WARNING: VL_DIR is not specified")
-endif()	
-
-include_directories("${VL_DIR}/include")
-include_directories("${VL_DIR}/JSONConverter/include")
-include_directories("${DMBCORE_DIR}/include")
+	message("DMBCORE_DIR: ${DMBCORE_DIR}")
+endif()
 
 if (CMAKE_CXX_COMPILER EQUAL "g++")
-	set(VL_BUILD_DIR_NAME "Build-g++")
-	set(DMBCORE_BUILD_DIR_NAME "Build-g++")
+	set(BUILD_DIR_NAME "Build-g++")
 else ()
-	set(VL_BUILD_DIR_NAME "Build-cmake")
-	set(DMBCORE_BUILD_DIR_NAME "Build-cmake")
+	set(BUILD_DIR_NAME "Build-cmake")
 endif ()
 
-add_subdirectory("${DMBCORE_DIR}" "${DMBCORE_DIR}/${DMBCORE_BUILD_DIR_NAME}")
+add_subdirectory("${DMBCORE_DIR}" "${DMBCORE_DIR}/${BUILD_DIR_NAME}")
+
+include_directories("${DMBCORE_INCLUDES}")
 
 target_link_libraries (Spellbook DMBCore VL)
 
