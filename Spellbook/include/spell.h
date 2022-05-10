@@ -1,22 +1,43 @@
+// Atomic spell interface.
+// You can implement your own native spell using this class doing the following steps:
+// 	* Implement cast() method.
+//	* Register your spell using initializer
+//		- Declare initializer:
+//			static spell::initializer<your_class> m_initializer;
+//		- Initialize it:
+//			spell::initializer<your_class> your_class::m_initializer("your-spell-alias")
+//		Your class will be registered in the system at static construction time
+
 #pragma once
 #include <string>
-#include "spell_options.h"
-#include "spell_fwd.h"
 #include <vl_fwd.h>
+#include "generated/Spell.h"
+#include "spell_options.h"
+#include "spell_factory.h"
+#include "spell_fwd.h"
 
 namespace spl
 {
 	class spell
 	{
 	public:
-		spell(const vl::VarPtr& data);
-		virtual bool cast(const option_list& options);
+		spell() = default;
+		spell(const vl::Var& data) : m_data(data) {};
+		spell(const vl::VarPtr& data) : m_data(data) {};
+		spell(const cppgen::Spell& data) : m_data(data) {};
+		virtual int cast(const option_list& args, spl::context& ctx);
 		const std::string& get_alias() const;
 
 	protected:
-
+		template <typename T>
+		struct initializer
+		{
+			inline initializer(const std::string& alias) {
+				spell_factory::register_spell<T>(alias);
+			}
+		};
 	private:
-		vl::VarPtr m_data;
+		cppgen::Spell m_data;
 	};
 }
 

@@ -8,7 +8,7 @@ namespace spl
 	class parser
 	{
 	public:
-		static spell_expression_ptr parse(const std::string& s);
+		static spell_expression_ptr parse(const std::string& s, spl::context& ctx);
 	};
 }
 

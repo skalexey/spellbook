@@ -1,10 +1,13 @@
-﻿// Spellbook.cpp : Defines the entry point for the application.
+// Spellbook.cpp : Defines the entry point for the application.
 //
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <vl_fwd.h>
-#include "Log.h"
+#include <utils/Log.h>
+#include "generated/Spell.h"
+#include "generated/Option.h"
 #include "Spellbook.h"	
 #include "spell_parser.h"
 #include "spell_expression.h"
@@ -12,9 +15,7 @@
 #include "spell_factory.h"
 #include "spell_options.h"
 #include "spell.h"
-
 #ifdef LOG_ON
-	#include "Log.h"
 	LOG_TITLE("Spellbook")
 	LOG_STREAM([]() -> std::ostream& { return std::cout; })
 	SET_LOG_DEBUG(true)
@@ -31,39 +32,39 @@
 //		* spell_list
 //
 
-namespace spl
+bool request_argument(cppgen::Option& opt)
 {
-	bool cast_spell(const spell_expression& ex, context& ctx)
-	{
-		LOCAL_DEBUG("Cast()\n");
-		if (const auto& data = ctx.get_spell_data(ex.get_alias()))
-		{
-			auto& rules = data.Get("rules").AsString().Val();
-			if (!rules.empty())
-			{
-				if (auto spell_ex = parser::parse(rules))
-					return cast_spell(*spell_ex, ctx);
-			}
-			else
-			{
-				if (auto spell = spell_factory::create(data.Get("alias").AsString().Val()))
-					return spell->cast(options::create_list(data.Get("options"), ex.get_args()), ctx);
-			}
-		}
-		else
-			LOCAL_LOG("Can't figure out what you've said");
-		return false;
-	}
+	std::cout << "\t" << opt.title() << ": ";
+	std::string val;
+	std::cin >> val;
+	opt.set_value(val);
+	// TODO: check the option validity
+	return true;
+}
+
+bool request_missed_args(spl::spell_expression& ex, spl::context& ctx)
+{
+	return ex.iterate_expressions([&](spl::spell_expression& ex) {
+		bool result = true;
+		std::for_each(ex.get_args().begin(), ex.get_args().end(), [&](auto arg) {
+			if (result)
+				if (arg.second.value().empty())
+					if (arg.second.default_value().empty())
+						if (!request_argument(arg.second))
+							result = false; // The argument has not been given, so stop the process
+		});
+		return result;
+	});
 }
 
 int main()
 {
 	LOG("=== Spellbook Project ===\n");
 	spl::context ctx;
-	if (!ctx.load_spells("spellbook.json"))
+	if (!ctx.load_spells("../../../resources/spellbook.json"))
 	{
 		std::cout << "Seems like you have no spells...\n";
-		return false;
+		return -1;
 	}
 	std::string s;
 	while (true)
@@ -73,10 +74,24 @@ int main()
 		if (s == "exit")
 			break;
 		std::cout << "\n";
-		if (auto spellEx = spl::parser::parse(s))
-			spl::cast_spell(*spellEx, ctx);
+//		std::cout << " parse string '" << s << "'\n";
+		if (s.empty())
+			continue;
+		if (auto spell_ex = spl::parser::parse(s, ctx))
+		{
+			if (spell_ex->has_missed_args())
+			{
+				if (!request_missed_args(*spell_ex, ctx))
+				{
+					std::cout << "	Some arguments has been not provided. Can't cast the spell\n";
+					continue;
+				}
+			}
+			int result = spell_ex->execute(ctx);
+		}
 		else
 			std::cout << "	Can't figure out what you've said\n";
+		s.clear();
 	}
 	return 0;
 }
