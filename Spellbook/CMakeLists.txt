@@ -12,6 +12,7 @@ if (LOG_ON)
 endif ()
 
 set(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/..")
+message("Include ROOT_DIR: '${ROOT_DIR}'")
 include_directories("${ROOT_DIR}")
 
 if (NOT INCLUDES STREQUAL "")
@@ -19,8 +20,8 @@ if (NOT INCLUDES STREQUAL "")
 	message("Add extra includes: ${INCLUDES}")
 endif()
 
-file(GLOB SRC CONFIGURE_DEPENDS "src/*.cpp" "src/spells/*.cpp")
-file(GLOB HEADERS ${HEADERS} "include/*.h" "include/spells/*.h")
+file(GLOB SRC CONFIGURE_DEPENDS "src/*.cpp" "src/spells/*.cpp" "../generated/*.cpp")
+file(GLOB HEADERS ${HEADERS} "include/*.h" "include/spells/*.h" "../generated/*.h")
 
 message("HEADERS: ${HEADERS}")
 message("SRC: ${SRC}")
@@ -54,5 +55,5 @@ add_subdirectory("${DMBCORE_DIR}" "${DMBCORE_DIR}/${BUILD_DIR_NAME}")
 
 include_directories("${DMBCORE_INCLUDES}")
 
-target_link_libraries (Spellbook DMBCore VL)
+target_link_libraries (Spellbook DMBCore)
 
