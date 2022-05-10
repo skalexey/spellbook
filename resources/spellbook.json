@@ -1,0 +1,116 @@
+{
+    "private": {},
+    "content": {
+        "spellbook": {
+            "proto": "Spellbook",
+            "spells": {
+                "proto": "OrderedRegistry",
+                "registry": {
+                    "a": {
+                        "proto": "Spell",
+                        "alias": "a",
+                        "description": "b",
+                        "rules": "c"
+                    },
+                    "add-spell": {
+                        "proto": "Spell",
+                        "alias": "add-spell",
+                        "options": {
+                            "proto": "OrderedRegistry",
+                            "registry": {
+                                "rules": {
+                                    "proto": "Option",
+                                    "alias": "rules",
+                                    "description": "A set of spells invocations: a string of expressions of the form <ex>(<a1>, <a2>, …, <an>) divided with semicolon. Supposed to be executed through Python. May be empty if a spell is atomic",
+                                    "title": "Rules"
+                                },
+                                "description": {
+                                    "proto": "Option",
+                                    "alias": "description",
+                                    "description": "Human-readable description of a spell to display on screen",
+                                    "title": "Description"
+                                },
+                                "alias": {
+                                    "proto": "Option",
+                                    "alias": "alias",
+                                    "description": "Sequence of chars used to call the spell",
+                                    "title": "Alias"
+                                }
+                            },
+                            "list": [
+                                "alias",
+                                "description",
+                                "optoins",
+                                "rules"
+                            ]
+                        },
+                        "description": "Create and add a new spell to the Spellbook"
+                    },
+                    "cmake-project": {
+                        "proto": "Spell",
+                        "rules": "copy(templates + \"/CMake/Project\", current_dir + \"/\" + opt_project_name); replace_in_files(current_dir + \"/\" + project_name, \"ProjectName\", opt_project_name);)",
+                        "alias": "cmake-project",
+                        "description": "Create a new CMake project with options: build.sh, Test directory, library, executable"
+                    },
+                    "build.sh": {
+                        "proto": "Spell",
+                        "alias": "build.sh",
+                        "options": {
+                            "proto": "OrderedRegistry",
+                            "registry": {
+                                "path": {
+                                    "proto": "Option",
+                                    "alias": "path",
+                                    "title": "Path",
+                                    "description": "File path",
+                                    "default_value": "."
+                                }
+                            },
+                            "list": [
+                                "path"
+                            ]
+                        },
+                        "description": "Add a build.sh script to the current directory"
+                    }
+                },
+                "list": [
+                    "cmake-project",
+                    "build.sh",
+                    "spell-list",
+                    "add-spell",
+                    "remove-spell",
+                    "a"
+                ]
+            }
+        },
+        "config": {
+            "python_spells_directory": "./python_spells"
+        }
+    },
+    "types": {
+        "OrderedRegistry": {
+            "list": [],
+            "registry": {}
+        },
+        "Option": {
+            "default_value": "",
+            "title": "",
+            "value": "",
+            "description": "",
+            "alias": ""
+        },
+        "Spellbook": {
+            "spells": {
+                "proto": "OrderedRegistry"
+            }
+        },
+        "Spell": {
+            "rules": "",
+            "options": {
+                "proto": "OrderedRegistry"
+            },
+            "description": "",
+            "alias": ""
+        }
+    }
+}
