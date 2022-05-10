@@ -80,7 +80,7 @@ done
 enterDirectory=${pwd}
 
 if [ -f "get_dependencies.sh" ]; then
-	./get_dependencies.sh
+	source get_dependencies.sh
 	retval=$?
 	if [ $retval -ne 0 ]; then
 		echo " ---- Dependencies resolution error"

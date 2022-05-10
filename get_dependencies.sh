@@ -10,6 +10,12 @@ source deps_config.sh
 
 enterDirectory=${pwd}
 
-./deps_scenario.sh
+source deps_scenario.sh
+retval=$?
+if [ $retval -ne 0 ]; then
+	echo " --- Error occured during the deps_scenario.sh execution"
+	cd "${enterDirectory}"
+	exit 1
+fi
 
 cd "${enterDirectory}"
