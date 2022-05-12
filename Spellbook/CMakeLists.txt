@@ -15,7 +15,7 @@ set(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/..")
 message("Include ROOT_DIR: '${ROOT_DIR}'")
 include_directories("${ROOT_DIR}")
 
-if (NOT INCLUDES STREQUAL "")
+if (NOT ${INCLUDES} STREQUAL "")
 	include_directories("${INCLUDES}")
 	message("Add extra includes: ${INCLUDES}")
 endif()
@@ -57,3 +57,8 @@ include_directories("${DMBCORE_INCLUDES}")
 
 target_link_libraries (Spellbook DMBCore)
 
+add_custom_command(
+    TARGET Spellbook PRE_BUILD
+    COMMAND bash ${CMAKE_CURRENT_SOURCE_DIR}/../get_dependencies.sh ${CMAKE_BUILD_TYPE} "${CMAKE_CURRENT_SOURCE_DIR}/.."
+    VERBATIM
+)
