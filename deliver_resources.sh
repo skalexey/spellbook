@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/usr/bin/bash
 
 buildFolder="Build-cmake"
 databaseFile="spellbook.json"

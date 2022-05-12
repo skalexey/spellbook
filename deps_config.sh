@@ -1,3 +1,3 @@
-#!/bin/sh
+#!/usr/bin/bash
 
-depsLocation="$HOME/Projects"
+depsLocation="${HOME}/Projects"
