@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <utils/Log.h>
 #include "generated/Spell.h"
