@@ -1,0 +1,9 @@
+v0.1
+
+Basic functional implemented including main features:
+	* Basic architecture implemented with support of native and python spells addition.
+	* The whole project build is automated including vl cpp generation.
+	* VL Cpp Generator is used for convinient work with data.
+	* The simplest parser allows to use only spell alias without arguments. Client application automatically requests all necessary arguments from you.
+	* Implemented a spell called 'add-spell' to easily add a new spell into the spellbook config file without any external tool.
+
