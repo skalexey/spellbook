@@ -24,6 +24,10 @@ namespace cppgen
 		const std::string& default_value() const;
 		void set_default_value(const std::string& value);
 		
+		// "description" field
+		const std::string& description() const;
+		void set_description(const std::string& value);
+		
 		// "title" field
 		const std::string& title() const;
 		void set_title(const std::string& value);
@@ -31,10 +35,6 @@ namespace cppgen
 		// "value" field
 		const std::string& value() const;
 		void set_value(const std::string& value);
-		
-		// "description" field
-		const std::string& description() const;
-		void set_description(const std::string& value);
 		
 		// "alias" field
 		const std::string& alias() const;

@@ -14,8 +14,8 @@ namespace cppgen
 			return;
 		auto& data_obj = m_data->AsObject();
 		m_OrderedRegistry = {vl::MakePtr(data_obj.Get("OrderedRegistry"))};
-		m_Option = {vl::MakePtr(data_obj.Get("Option"))};
 		m_Spellbook = {vl::MakePtr(data_obj.Get("Spellbook"))};
+		m_Option = {vl::MakePtr(data_obj.Get("Option"))};
 		m_Spell = {vl::MakePtr(data_obj.Get("Spell"))};
 	}
 	
@@ -28,8 +28,8 @@ namespace cppgen
 			return;
 		auto& data_obj = m_data->AsObject();
 		m_OrderedRegistry = {vl::MakePtr(data_obj.Get("OrderedRegistry"))};
-		m_Option = {vl::MakePtr(data_obj.Get("Option"))};
 		m_Spellbook = {vl::MakePtr(data_obj.Get("Spellbook"))};
+		m_Option = {vl::MakePtr(data_obj.Get("Option"))};
 		m_Spell = {vl::MakePtr(data_obj.Get("Spell"))};
 	}
 	
@@ -64,17 +64,6 @@ namespace cppgen
 		return m_OrderedRegistry;
 	}
 	
-	// "Option" field
-	Option&  types::get_Option()
-	{
-		return m_Option;
-	}
-	
-	const Option&  types::get_Option() const
-	{
-		return m_Option;
-	}
-	
 	// "Spellbook" field
 	Spellbook&  types::get_Spellbook()
 	{
@@ -84,6 +73,17 @@ namespace cppgen
 	const Spellbook&  types::get_Spellbook() const
 	{
 		return m_Spellbook;
+	}
+	
+	// "Option" field
+	Option&  types::get_Option()
+	{
+		return m_Option;
+	}
+	
+	const Option&  types::get_Option() const
+	{
+		return m_Option;
 	}
 	
 	// "Spell" field
