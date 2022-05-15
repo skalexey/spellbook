@@ -1,53 +1,57 @@
 #!/bin/bash
 
-folderName=${PWD##*/}
+deps_scenario()
+{
+	local folderName=${PWD##*/}
 
-source log.sh
-log_prefix="-- [${folderName} deps_scenario script]: "
+	source log.sh
+	local log_prefix="-- [${folderName} deps_scenario script]: "
 
-source dependencies.sh
-source deps_config.sh
+	source dependencies.sh
+	source deps_config.sh
 
-download_dependency "DataModelBuilder" "$depsLocation" "git@github.com:skalexey/DataModelBuilder.git"
-download_dependency "vl_cpp_generator" "$depsLocation" "git@github.com:skalexey/vl_cpp_generator.git"
+	download_dependency "DataModelBuilder" "$depsLocation" "git@github.com:skalexey/DataModelBuilder.git"
+	download_dependency "vl_cpp_generator" "$depsLocation" "git@github.com:skalexey/vl_cpp_generator.git"
 
-enterDir=${PWD}
-cd $depsLocation/vl_cpp_generator
+	local enterDir=${PWD}
+	cd $depsLocation/vl_cpp_generator
 
-log "Spellbook: Build release vl_cpp_generator" " --"
+	log "Spellbook: Build release vl_cpp_generator" " --"
 
-source build.sh . release
-retval=$?
-if [ $retval -ne 0 ]; then
-	log "Error occured during vl_cpp_generator build process" " ---"
-	exit 1
-else
-	log "vl_cpp_generator has been successfully built" " ---"
-fi
-cd $enterDir
+	source build.sh . release
+	local retval=$?
+	if [ $retval -ne 0 ]; then
+		log "Error occured during vl_cpp_generator build process" " ---"
+		exit 1
+	else
+		log "vl_cpp_generator has been successfully built" " ---"
+	fi
+	cd $enterDir
 
-# deploy cpp generator
-source deploy_cpp_generator.sh
-retval=$?
-if [ $retval -ne 0 ]; then
-	exit 1	
-fi
+	# deploy cpp generator
+	source deploy_cpp_generator.sh
+	local retval=$?
+	if [ $retval -ne 0 ]; then
+		exit 1	
+	fi
 
-genDir="generated"
+	local genDir="generated"
 
-[ ! -d "$genDir" ] && mkdir "$genDir"
+	[ ! -d "$genDir" ] && mkdir "$genDir"
 
-jsonConfig=resources/spellbook.json
+	local jsonConfig=resources/spellbook.json
 
-log "Generate cpp code for JSON config '$jsonConfig'" " ---"
+	log "Generate cpp code for JSON config '$jsonConfig'" " ---"
 
-vlcppgen $jsonConfig generated -print_root=false
-retval=$?
-if [ $retval -ne 0 ]; then
-	log "Error during cpp generation process (code: $retval)" " ---"
-	exit 1
-else
-	log "Cpp code generated successfully" " ---"
-fi
+	vlcppgen $jsonConfig generated -print_root=false
+	local retval=$?
+	if [ $retval -ne 0 ]; then
+		log "Error during cpp generation process (code: $retval)" " ---"
+		exit 1
+	else
+		log "Cpp code generated successfully" " ---" " ------"
+	fi
 
+}
 
+deps_scenario $@
