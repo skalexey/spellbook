@@ -32,21 +32,21 @@ namespace cppgen
 			// Data validation checker through the bool operator
 		};
 		// Field access
-		// "rules" field
-		const std::string& rules() const;
-		void set_rules(const std::string& value);
-		
-		// "options" field
-		options&  get_options();
-		const options&  get_options() const;
+		// "alias" field
+		const std::string& alias() const;
+		void set_alias(const std::string& value);
 		
 		// "description" field
 		const std::string& description() const;
 		void set_description(const std::string& value);
 		
-		// "alias" field
-		const std::string& alias() const;
-		void set_alias(const std::string& value);
+		// "options" field
+		options&  get_options();
+		const options&  get_options() const;
+		
+		// "rules" field
+		const std::string& rules() const;
+		void set_rules(const std::string& value);
 		
 	protected:
 		// Data getter for internal use

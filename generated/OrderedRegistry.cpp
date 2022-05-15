@@ -47,6 +47,17 @@ namespace cppgen
 	}
 	
 	// Field access
+	// "registry" field
+	OrderedRegistry::registry&  OrderedRegistry::get_registry()
+	{
+		return m_registry;
+	}
+	
+	const OrderedRegistry::registry&  OrderedRegistry::get_registry() const
+	{
+		return m_registry;
+	}
+	
 	// "list" field
 	vl::List& OrderedRegistry::list()
 	{
@@ -65,17 +76,6 @@ namespace cppgen
 		if (!data_list.IsList())
 			return empty_val;
 		return data_list.AsList();
-	}
-	
-	// "registry" field
-	OrderedRegistry::registry&  OrderedRegistry::get_registry()
-	{
-		return m_registry;
-	}
-	
-	const OrderedRegistry::registry&  OrderedRegistry::get_registry() const
-	{
-		return m_registry;
 	}
 	
 	// Subclasses definitions begin

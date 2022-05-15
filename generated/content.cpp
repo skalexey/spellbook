@@ -13,8 +13,8 @@ namespace cppgen
 		if (!m_data->IsObject())
 			return;
 		auto& data_obj = m_data->AsObject();
-		m_spellbook = {vl::MakePtr(data_obj.Get("spellbook"))};
 		m_config = {vl::MakePtr(data_obj.Get("config"))};
+		m_spellbook = {vl::MakePtr(data_obj.Get("spellbook"))};
 	}
 	
 	content::content(const vl::Var& data)
@@ -25,8 +25,8 @@ namespace cppgen
 		if (!m_data->IsObject())
 			return;
 		auto& data_obj = m_data->AsObject();
-		m_spellbook = {vl::MakePtr(data_obj.Get("spellbook"))};
 		m_config = {vl::MakePtr(data_obj.Get("config"))};
+		m_spellbook = {vl::MakePtr(data_obj.Get("spellbook"))};
 	}
 	
 	content::operator bool() const
@@ -49,17 +49,6 @@ namespace cppgen
 	}
 	
 	// Field access
-	// "spellbook" field
-	content::spellbook&  content::get_spellbook()
-	{
-		return m_spellbook;
-	}
-	
-	const content::spellbook&  content::get_spellbook() const
-	{
-		return m_spellbook;
-	}
-	
 	// "config" field
 	content::config&  content::get_config()
 	{
@@ -71,19 +60,18 @@ namespace cppgen
 		return m_config;
 	}
 	
+	// "spellbook" field
+	content::spellbook&  content::get_spellbook()
+	{
+		return m_spellbook;
+	}
+	
+	const content::spellbook&  content::get_spellbook() const
+	{
+		return m_spellbook;
+	}
+	
 	// Subclasses definitions begin
-	// Initializers
-	
-	content::spellbook::spellbook(const vl::VarPtr& data)
-		: Spellbook(data)
-	{
-	}
-	
-	content::spellbook::spellbook(const vl::Var& data)
-		: Spellbook(vl::MakePtr(data))
-	{
-	}
-	
 	// Initializers
 	
 	content::config::config(const vl::VarPtr& data)
@@ -139,6 +127,18 @@ namespace cppgen
 			return;
 		auto& data_obj = m_data->AsObject();
 		data_obj.Set("python_spells_directory", value);
+	}
+	
+	// Initializers
+	
+	content::spellbook::spellbook(const vl::VarPtr& data)
+		: Spellbook(data)
+	{
+	}
+	
+	content::spellbook::spellbook(const vl::Var& data)
+		: Spellbook(vl::MakePtr(data))
+	{
 	}
 	
 }
