@@ -60,7 +60,8 @@ int main()
 {
 	LOG("=== Spellbook Project ===\n");
 	spl::context ctx;
-	if (!ctx.load_spells("../../../resources/spellbook.json"))
+	LOG("Current path: " << std::filesystem::current_path());
+	if (!ctx.load_spells("spellbook.json"))
 	{
 		std::cout << "Seems like you have no spells...\n";
 		return -1;
