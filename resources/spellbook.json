@@ -84,7 +84,8 @@
             }
         },
         "config": {
-            "python_spells_directory": "./python_spells"
+            "python_spells_directory": "./python_spells",
+            "shell_spells_directory": "./shell_spells"
         }
     },
     "types": {
