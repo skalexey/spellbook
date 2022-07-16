@@ -1,19 +1,21 @@
 #!/usr/bin/bash
 
 buildFolder="Build-cmake"
-databaseFile="spellbook.json"
+fileName="spellbook.json"
+databaseFile="resources/$fileName"
 
 curDir=$PWD
 
 echo "Current dir: $curDir"
 
-if [ ! -z "$2" ]; then
-	cd $2
+if [ ! -z "$1" ]; then
+	cd "$1"
+	echo "Now in '$1'"
 fi
 
-destPath="${buildFolder}/Spellbook"
-destFilePath="${destPath}/${databaseFile}"
-rm "${destFilePath}"
+destPath="$buildFolder/Spellbook"
+destFilePath="$destPath/$fileName"
+rm "$fileName"
 echo "Copy '$databaseFile' to the build folder $destPath/"
 cp "$databaseFile" "$destFilePath"
 
