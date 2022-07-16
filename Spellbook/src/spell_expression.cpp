@@ -12,7 +12,6 @@
 
 #ifdef LOG_ON
 	LOG_TITLE("spell_expression")
-	LOG_STREAM([]() -> std::ostream& { return std::cout; })
 	SET_LOG_DEBUG(false);
 #endif
 

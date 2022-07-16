@@ -9,7 +9,6 @@
 	#include <vl.h>
 	#include <DMBCore.h>
 	LOG_TITLE("spell_context")
-	LOG_STREAM([]() -> std::ostream& { return std::cout; })
 #endif
 
 namespace spl

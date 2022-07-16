@@ -6,7 +6,6 @@
 #include "generated/content.h"
 #ifdef LOG_ON
 	LOG_TITLE("spell_factory");
-	LOG_STREAM([]() -> std::ostream& { return std::cout; });
 	SET_LOG_DEBUG(true);
 #endif
 
@@ -17,7 +16,7 @@ namespace spl
 	bool python_spell_exists(const std::string& alias, spl::context& ctx)
 	{
 		auto& python_spells_path = ctx.get_content_data().get_config().python_spells_directory();
-		if (utils::file_exists(python_spells_path + "/" + alias + ".py"))
+		if (utils::file::exists(python_spells_path + "/" + alias + ".py"))
 			return true;
 		return false;
 	}

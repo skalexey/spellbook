@@ -5,7 +5,6 @@
 
 #ifdef LOG_ON
 	LOG_TITLE("spell")
-	LOG_STREAM([]() -> std::ostream& { return std::cout; })
 	SET_LOG_DEBUG(true)
 #endif
 

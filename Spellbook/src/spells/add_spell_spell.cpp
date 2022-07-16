@@ -7,7 +7,6 @@
 #include "spell_context.h"
 #ifdef LOG_ON
 	LOG_TITLE("add_spell_spell")
-	LOG_STREAM([]() -> std::ostream& { return std::cout; })
 	SET_LOG_DEBUG(true)
 #endif
 

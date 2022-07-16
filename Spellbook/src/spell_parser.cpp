@@ -7,7 +7,6 @@
 #include <utils/Log.h>
 #ifdef LOG_ON
 	LOG_TITLE("parser")
-	LOG_STREAM([]() -> std::ostream& { return std::cout; })
 #endif
 
 namespace spl
