@@ -21,6 +21,8 @@ namespace spl
 				return std::make_shared<T>(data);
 			};
 		}
+		static spell_ptr create_script_spell(const std::string& alias, spl::context& ctx);
+
 	private:
 		static std::unordered_map<std::string, creator_func_t> m_creator;
 	};

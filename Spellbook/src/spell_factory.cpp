@@ -3,6 +3,7 @@
 #include "spell_context.h"
 #include "spell_factory.h"
 #include "spells/python_spell.h"
+#include "spells/shell_spell.h"
 #include "generated/content.h"
 #ifdef LOG_ON
 	LOG_TITLE("spell_factory");
@@ -21,10 +22,23 @@ namespace spl
 		return false;
 	}
 
-	spell_ptr create_python_spell(const cppgen::Spell& data, spl::context& ctx)
+	bool shell_spell_exists(const std::string& alias, spl::context& ctx)
 	{
-		return std::make_shared<python_spell>(data.get_data());
-		LOCAL_ERROR("Can't find data for the python spell '" << data.alias() << "'");
+		auto& shell_spells_path = ctx.get_content_data().get_config().shell_spells_directory();
+		if (utils::file::exists(shell_spells_path + "/" + alias + ".sh"))
+			return true;
+		return false;
+	}
+
+	spell_ptr create_script_spell(const cppgen::Spell& data, spl::context& ctx)
+	{
+		auto& alias = data.alias();
+		// Search for a python spell
+		if (python_spell_exists(alias, ctx))
+			return std::make_shared<python_spell>(data.get_data());
+		// Search for a shell spell
+		if (shell_spell_exists(alias, ctx))
+			return std::make_shared<shell_spell>(data.get_data());
 		return nullptr;
 	}
 
@@ -36,11 +50,12 @@ namespace spl
 			return nullptr;
 		}
 		auto& alias = data.alias();
-		// Search for a python spell
-		if (python_spell_exists(alias, ctx))
-			return create_python_spell(data, ctx);
 		
+		// Search for a script spell
+		if (auto script_spell = spl::create_script_spell(data, ctx))
+			return script_spell;
 		// Search for a native spell
+
 		auto it = m_creator.find(alias);
 		if (it == m_creator.end())
 		{
@@ -48,6 +63,13 @@ namespace spl
 			return nullptr;
 		}
 		return it->second(data);
+	}
+
+	spell_ptr spell_factory::create_script_spell(const std::string& alias, spl::context& ctx)
+	{
+		cppgen::Spell data;
+		data.set_alias(alias);
+		return spl::create_script_spell(data, ctx);
 	}
 
 	spell_ptr spell_factory::create(const std::string& alias, spl::context& ctx)
