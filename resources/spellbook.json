@@ -18,6 +18,12 @@
                         "options": {
                             "proto": "OrderedRegistry",
                             "registry": {
+                                "title": {
+                                    "proto": "Option",
+                                    "alias": "title",
+                                    "description": "Human-readable short description of a spell to display on screen",
+                                    "title": "Title"
+                                },
                                 "rules": {
                                     "proto": "Option",
                                     "alias": "rules",
@@ -84,8 +90,9 @@
             }
         },
         "config": {
-            "python_spells_directory": "./python_spells",
-            "shell_spells_directory": "./shell_spells"
+            "python_spells_directory": "python_spells",
+            "shell_spells_directory": "shell_spells",
+            "shell_cmd": "bash"
         }
     },
     "types": {
