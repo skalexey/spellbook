@@ -47,8 +47,8 @@ namespace cppgen
 	}
 	
 	// Field access
-	// "alias" field
-	const std::string& Spell::alias() const
+	// "rules" field
+	const std::string& Spell::rules() const
 	{
 		static std::string empty_val = "";
 		if (!m_data)
@@ -56,20 +56,31 @@ namespace cppgen
 		if (!m_data->IsObject())
 			return empty_val;
 		auto& data_obj = m_data->AsObject();
-		auto& data_alias = data_obj.Get("alias");
-		if (!data_alias.IsString())
+		auto& data_rules = data_obj.Get("rules");
+		if (!data_rules.IsString())
 			return empty_val;
-		return data_alias.AsString().Val();
+		return data_rules.AsString().Val();
 	}
 	
-	void Spell::set_alias(const std::string& value)
+	void Spell::set_rules(const std::string& value)
 	{
 		if (!m_data)
 			return;
 		if (!m_data->IsObject())
 			return;
 		auto& data_obj = m_data->AsObject();
-		data_obj.Set("alias", value);
+		data_obj.Set("rules", value);
+	}
+	
+	// "options" field
+	Spell::options&  Spell::get_options()
+	{
+		return m_options;
+	}
+	
+	const Spell::options&  Spell::get_options() const
+	{
+		return m_options;
 	}
 	
 	// "description" field
@@ -97,19 +108,8 @@ namespace cppgen
 		data_obj.Set("description", value);
 	}
 	
-	// "options" field
-	Spell::options&  Spell::get_options()
-	{
-		return m_options;
-	}
-	
-	const Spell::options&  Spell::get_options() const
-	{
-		return m_options;
-	}
-	
-	// "rules" field
-	const std::string& Spell::rules() const
+	// "alias" field
+	const std::string& Spell::alias() const
 	{
 		static std::string empty_val = "";
 		if (!m_data)
@@ -117,20 +117,20 @@ namespace cppgen
 		if (!m_data->IsObject())
 			return empty_val;
 		auto& data_obj = m_data->AsObject();
-		auto& data_rules = data_obj.Get("rules");
-		if (!data_rules.IsString())
+		auto& data_alias = data_obj.Get("alias");
+		if (!data_alias.IsString())
 			return empty_val;
-		return data_rules.AsString().Val();
+		return data_alias.AsString().Val();
 	}
 	
-	void Spell::set_rules(const std::string& value)
+	void Spell::set_alias(const std::string& value)
 	{
 		if (!m_data)
 			return;
 		if (!m_data->IsObject())
 			return;
 		auto& data_obj = m_data->AsObject();
-		data_obj.Set("rules", value);
+		data_obj.Set("alias", value);
 	}
 	
 	// Subclasses definitions begin

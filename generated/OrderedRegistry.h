@@ -46,13 +46,13 @@ namespace cppgen
 			vl::VarPtr m_data;
 		};
 		// Field access
-		// "registry" field
-		registry&  get_registry();
-		const registry&  get_registry() const;
-		
 		// "list" field
 		vl::List& list();
 		const vl::List& get_list() const;
+		
+		// "registry" field
+		registry&  get_registry();
+		const registry&  get_registry() const;
 		
 	protected:
 		// Data getter for internal use

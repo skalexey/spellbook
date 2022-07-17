@@ -22,6 +22,15 @@ namespace cppgen
 		}
 		
 		// Nested object fields classes
+		class spellbook : public Spellbook
+		{
+		public:
+			// Initializers
+			spellbook() = default;
+			spellbook(const vl::VarPtr& data);
+			spellbook(const vl::Var& data);
+			// Data validation checker through the bool operator
+		};
 		class config
 		{
 		public:
@@ -42,6 +51,14 @@ namespace cppgen
 			const std::string& python_spells_directory() const;
 			void set_python_spells_directory(const std::string& value);
 			
+			// "shell_spells_directory" field
+			const std::string& shell_spells_directory() const;
+			void set_shell_spells_directory(const std::string& value);
+			
+			// "shell_cmd" field
+			const std::string& shell_cmd() const;
+			void set_shell_cmd(const std::string& value);
+			
 		protected:
 			// Data getter for internal use
 			inline const vl::VarPtr& _data_() const {
@@ -52,23 +69,14 @@ namespace cppgen
 			// Data members
 			vl::VarPtr m_data;
 		};
-		class spellbook : public Spellbook
-		{
-		public:
-			// Initializers
-			spellbook() = default;
-			spellbook(const vl::VarPtr& data);
-			spellbook(const vl::Var& data);
-			// Data validation checker through the bool operator
-		};
 		// Field access
-		// "config" field
-		config&  get_config();
-		const config&  get_config() const;
-		
 		// "spellbook" field
 		spellbook&  get_spellbook();
 		const spellbook&  get_spellbook() const;
+		
+		// "config" field
+		config&  get_config();
+		const config&  get_config() const;
 		
 	protected:
 		// Data getter for internal use
@@ -78,8 +86,8 @@ namespace cppgen
 	
 	private:
 		// Data members
-		class config m_config;
 		class spellbook m_spellbook;
+		class config m_config;
 		vl::VarPtr m_data;
 	};
 }

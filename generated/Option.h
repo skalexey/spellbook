@@ -20,25 +20,25 @@ namespace cppgen
 		}
 		
 		// Field access
-		// "alias" field
-		const std::string& alias() const;
-		void set_alias(const std::string& value);
+		// "default_value" field
+		const std::string& default_value() const;
+		void set_default_value(const std::string& value);
 		
 		// "description" field
 		const std::string& description() const;
 		void set_description(const std::string& value);
 		
-		// "value" field
-		const std::string& value() const;
-		void set_value(const std::string& value);
-		
 		// "title" field
 		const std::string& title() const;
 		void set_title(const std::string& value);
 		
-		// "default_value" field
-		const std::string& default_value() const;
-		void set_default_value(const std::string& value);
+		// "value" field
+		const std::string& value() const;
+		void set_value(const std::string& value);
+		
+		// "alias" field
+		const std::string& alias() const;
+		void set_alias(const std::string& value);
 		
 	protected:
 		// Data getter for internal use
