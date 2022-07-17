@@ -6,5 +6,5 @@ buildFolderPrefix="Build"
 extraArg=" -DDEPS=${depsLocation}"
 extraArgWin=$extraArg
 extraArgMac=$extraArg
-buildConfig="Debug"
-logArg=" -DLOG_ON=ON -DLOG_LEVEL_DEBUG=ON"
+buildConfig="Release"
+logArg=" -DLOG_ON=ON"

@@ -15,7 +15,8 @@ fi
 
 destPath="$buildFolder/Spellbook"
 destFilePath="$destPath/$fileName"
-rm "$fileName"
+rm "$destFilePath"
 echo "Copy '$databaseFile' to the build folder $destPath/"
 cp "$databaseFile" "$destFilePath"
 
+exit 0

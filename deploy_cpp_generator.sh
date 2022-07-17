@@ -27,7 +27,7 @@ deploy_cpp_generator()
 		cp $binDir/vl_jsontocpp.exe $binDir/vlcppgen.exe
 		local retval=$?
 		if [ $retval -ne 0 ]; then
-			log "vlcppgen.exe creation error" " --"
+			log_error "vlcppgen.exe creation error" " --"
 		else
 			log "vlcppgen.exe created in the binary directory by path '$binDir/vlcppgen.exe'" " --"
 		fi
@@ -40,14 +40,14 @@ deploy_cpp_generator()
 	local retval=$?
 	if [ $retval -ne 0 ]; then
 		if [ $retval -ne 2 ]; then
-			log "vl_cpp_generator deployment error!" " -"
+			log_error "vl_cpp_generator deployment error!" " -"
 			cd $enterDir
 			exit 1
 		else
-			log "vl_cpp_generator deployment process needs action from User" " -"
+			log_info "vl_cpp_generator deployment process needs action from User" " -"
 		fi
 	else
-		log "vl_cpp_generator deployment success" " -"
+		log_success "vl_cpp_generator deployment success" " -"
 	fi
 
 	cd $enterDir
