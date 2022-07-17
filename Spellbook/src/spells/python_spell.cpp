@@ -10,6 +10,7 @@ namespace spl
 	int python_spell::cast(const option_list& args, spl::context& ctx)
 	{
 		LOCAL_DEBUG("cast python spell '" << get_alias() << "\n");
+		// TODO: invoke the script
 		return 0;
 	}
 }
