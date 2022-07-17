@@ -34,18 +34,16 @@ namespace spl
 	bool spell_expression::init(const std::string& alias, const args_list& args, context& ctx)
 	{
 		if (!alias.empty())
-		{
 			if (auto data = ctx.get_spell_data(alias))
 				m_spell_data = std::make_unique<cppgen::Spell>(data);
-			else
-			{
-				LOCAL_ERROR("During spell '" << alias
-							<< "' initialisation: can't find spell data for spell '" << get_alias());
-				return false;
-			}
-		}
 		if (m_spell_data)
 			m_args = options::create_list(m_spell_data->get_options(), args);
+		else
+		{
+			m_spell_data = std::make_unique<cppgen::Spell>(vl::Object());
+			m_spell_data->set_alias(alias);
+			m_args = options::create_unnamed_list(args);
+		}
 		return true;
 	}
 

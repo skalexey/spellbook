@@ -1,6 +1,7 @@
 // Spellbook.cpp : Defines the entry point for the application.
 //
 
+#include <filesystem>
 #include <algorithm>
 #include <iostream>
 #include <string>
@@ -56,42 +57,63 @@ bool request_missed_args(spl::spell_expression& ex, spl::context& ctx)
 	});
 }
 
-int main()
+int main(int argc, char const* argv[])
 {
 	LOG("=== Spellbook Project ===\n");
 	spl::context ctx;
-	LOG("Current path: " << std::filesystem::current_path());
 	if (!ctx.load_spells("spellbook.json"))
 	{
 		std::cout << "Seems like you have no spells...\n";
 		return -1;
 	}
-	std::string s;
-	while (true)
-	{
-		std::cout << "Your spell: ";
-		std::getline(std::cin, s);
-		if (s == "exit")
-			break;
-		std::cout << "\n";
-//		std::cout << " parse string '" << s << "'\n";
-		if (s.empty())
-			continue;
-		if (auto spell_ex = spl::parser::parse(s, ctx))
-		{
-			if (spell_ex->has_missed_args())
+
+	auto process_ex_args = [&](const spl::spell_expression_ptr& ex) {
+		if (ex->has_missed_args())
+			if (!request_missed_args(*ex, ctx))
 			{
-				if (!request_missed_args(*spell_ex, ctx))
-				{
-					std::cout << "	Some arguments has been not provided. Can't cast the spell\n";
-					continue;
-				}
+				std::cout << "	Some arguments has been not provided. Can't cast the spell\n";
+				return false;
 			}
-			int result = spell_ex->execute(ctx);
+		return true;
+	};
+
+	auto on_cant_parse = [] {
+		std::cout << "	Can't figure out what you've said\n";
+	};
+
+	if (argc < 2)
+	{
+		std::string s;
+		while (true)
+		{
+			std::cout << "Your spell: ";
+			std::getline(std::cin, s);
+			if (s == "exit")
+				break;
+			std::cout << "\n";
+			//		std::cout << " parse string '" << s << "'\n";
+			if (s.empty())
+				continue;
+			if (auto spell_ex = spl::parser::parse(s, ctx))
+			{
+				if (!process_ex_args(spell_ex))
+					continue;
+				int result = spell_ex->execute(ctx);
+			}
+			else
+				on_cant_parse();
+			s.clear();
+		}
+	}
+	else
+	{
+		if (auto spell_ex = spl::parser::parse(argc, argv, ctx))
+		{
+			if (process_ex_args(spell_ex))
+				int result = spell_ex->execute(ctx);
 		}
 		else
-			std::cout << "	Can't figure out what you've said\n";
-		s.clear();
+			on_cant_parse();
 	}
 	return 0;
 }

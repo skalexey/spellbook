@@ -1,3 +1,5 @@
+#include <cctype>
+#include <string>
 #include <vl.h>
 #include <utils/Log.h>
 #include "spell_options.h"
@@ -36,6 +38,21 @@ namespace spl
 								}
 							}
 						}
+			return l;
+		}
+
+		option_list create_unnamed_list(const args_list& args)
+		{
+			option_list l;
+			for (int i = 0; i < args.size(); i++)
+			{
+				std::string alias = "arg" + std::to_string(i);
+				auto o = cppgen::Option(vl::Object());
+				o.set_alias(alias);
+				o.set_title(char(std::toupper(alias[0])) + alias.substr(1));
+				o.set_value(args[i]);
+				l.add(alias, o);
+			}
 			return l;
 		}
 	}
