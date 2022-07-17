@@ -63,7 +63,7 @@ namespace spl
 		}
 		if (auto spell = spell_factory::create(*m_spell_data, ctx))
 			return spell->cast(m_args, ctx);
-		LOCAL_ERROR("Can't find the logic of a native spell '" << get_alias() << "'. Won't cast");
+		LOCAL_ERROR("Can't execute the spell '" << get_alias() << "'");
 		return false;
 	}
 

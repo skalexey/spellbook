@@ -10,6 +10,8 @@
 	SET_LOG_DEBUG(true);
 #endif
 
+namespace fs = std::filesystem;
+
 namespace spl
 {
 	std::unordered_map<std::string, spell_factory::creator_func_t> spell_factory::m_creator;
@@ -24,8 +26,11 @@ namespace spl
 
 	bool shell_spell_exists(const std::string& alias, spl::context& ctx)
 	{
-		auto& shell_spells_path = ctx.get_content_data().get_config().shell_spells_directory();
-		if (utils::file::exists(shell_spells_path + "/" + alias + ".sh"))
+		auto cfg = ctx.get_content_data().get_config();
+		fs::path scripts_dir_path = cfg.shell_spells_directory();
+		if (scripts_dir_path.is_relative())
+			scripts_dir_path = fs::temp_directory_path() / scripts_dir_path;
+		if (utils::file::exists(scripts_dir_path / (alias + ".sh")))
 			return true;
 		return false;
 	}
