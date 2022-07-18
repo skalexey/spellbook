@@ -78,6 +78,10 @@ namespace cppgen
 		config&  get_config();
 		const config&  get_config() const;
 		
+		// "script_links" field
+		vl::List& script_links();
+		const vl::List& get_script_links() const;
+		
 	protected:
 		// Data getter for internal use
 		inline const vl::VarPtr& _data_() const {

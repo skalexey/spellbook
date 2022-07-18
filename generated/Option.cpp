@@ -60,31 +60,6 @@ namespace cppgen
 		data_obj.Set("default_value", value);
 	}
 	
-	// "description" field
-	const std::string& Option::description() const
-	{
-		static std::string empty_val = "";
-		if (!m_data)
-			return empty_val;
-		if (!m_data->IsObject())
-			return empty_val;
-		auto& data_obj = m_data->AsObject();
-		auto& data_description = data_obj.Get("description");
-		if (!data_description.IsString())
-			return empty_val;
-		return data_description.AsString().Val();
-	}
-	
-	void Option::set_description(const std::string& value)
-	{
-		if (!m_data)
-			return;
-		if (!m_data->IsObject())
-			return;
-		auto& data_obj = m_data->AsObject();
-		data_obj.Set("description", value);
-	}
-	
 	// "title" field
 	const std::string& Option::title() const
 	{
@@ -108,6 +83,31 @@ namespace cppgen
 			return;
 		auto& data_obj = m_data->AsObject();
 		data_obj.Set("title", value);
+	}
+	
+	// "description" field
+	const std::string& Option::description() const
+	{
+		static std::string empty_val = "";
+		if (!m_data)
+			return empty_val;
+		if (!m_data->IsObject())
+			return empty_val;
+		auto& data_obj = m_data->AsObject();
+		auto& data_description = data_obj.Get("description");
+		if (!data_description.IsString())
+			return empty_val;
+		return data_description.AsString().Val();
+	}
+	
+	void Option::set_description(const std::string& value)
+	{
+		if (!m_data)
+			return;
+		if (!m_data->IsObject())
+			return;
+		auto& data_obj = m_data->AsObject();
+		data_obj.Set("description", value);
 	}
 	
 	// "value" field

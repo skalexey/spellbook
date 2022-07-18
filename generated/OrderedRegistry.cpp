@@ -50,7 +50,7 @@ namespace cppgen
 	// "list" field
 	vl::List& OrderedRegistry::list()
 	{
-		return const_cast<vl::List&>(get_list());
+		return const_cast<vl::List&>(get_list()); 
 	}
 	
 	const vl::List& OrderedRegistry::get_list() const

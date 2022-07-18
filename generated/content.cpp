@@ -71,6 +71,26 @@ namespace cppgen
 		return m_config;
 	}
 	
+	// "script_links" field
+	vl::List& content::script_links()
+	{
+		return const_cast<vl::List&>(get_script_links()); 
+	}
+	
+	const vl::List& content::get_script_links() const
+	{
+		static vl::List empty_val = vl::emptyList;
+		if (!m_data)
+			return empty_val;
+		if (!m_data->IsObject())
+			return empty_val;
+		auto& data_obj = m_data->AsObject();
+		auto& data_script_links = data_obj.Get("script_links");
+		if (!data_script_links.IsList())
+			return empty_val;
+		return data_script_links.AsList();
+	}
+	
 	// Subclasses definitions begin
 	// Initializers
 	

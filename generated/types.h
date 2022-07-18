@@ -29,13 +29,13 @@ namespace cppgen
 		OrderedRegistry&  get_OrderedRegistry();
 		const OrderedRegistry&  get_OrderedRegistry() const;
 		
-		// "Spellbook" field
-		Spellbook&  get_Spellbook();
-		const Spellbook&  get_Spellbook() const;
-		
 		// "Option" field
 		Option&  get_Option();
 		const Option&  get_Option() const;
+		
+		// "Spellbook" field
+		Spellbook&  get_Spellbook();
+		const Spellbook&  get_Spellbook() const;
 		
 		// "Spell" field
 		Spell&  get_Spell();
@@ -50,8 +50,8 @@ namespace cppgen
 	private:
 		// Data members
 		class OrderedRegistry m_OrderedRegistry;
-		class Spellbook m_Spellbook;
 		class Option m_Option;
+		class Spellbook m_Spellbook;
 		class Spell m_Spell;
 		vl::VarPtr m_data;
 	};
