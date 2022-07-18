@@ -30,7 +30,7 @@ namespace spl
 		bool iterate_expressions(const std::function<bool(spell_expression&)>& pred);
 		
 		// Logic
-		bool execute(spl::context& ctx);
+		int execute(spl::context& ctx);
 		bool has_missed_args() const;
 
 	private:

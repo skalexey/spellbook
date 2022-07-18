@@ -54,17 +54,17 @@ namespace spl
 	}
 
 	// Logic
-	bool spell_expression::execute(spl::context& ctx)
+	int spell_expression::execute(spl::context& ctx)
 	{
 		if (!m_spell_data)
 		{
 			LOCAL_DEBUG("Null data in an executing expression");
-			return false;
+			return -1;
 		}
 		if (auto spell = spell_factory::create(*m_spell_data, ctx))
 			return spell->cast(m_args, ctx);
 		LOCAL_ERROR("Can't execute the spell '" << get_alias() << "'");
-		return false;
+		return -1;
 	}
 
 	bool spell_expression::has_missed_args() const
@@ -74,7 +74,7 @@ namespace spl
 			std::for_each(ex.get_args().begin(), ex.get_args().end(), [&](auto arg) {
 				if (!result)
 					if (arg.second.value().empty())
-						if (arg.second.default_value().empty())
+						if (!arg.second.get_data("default_value"))
 							result = true;
 			});
 			return result;

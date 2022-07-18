@@ -15,6 +15,7 @@
 #include "spell_options.h"
 #include "spell_factory.h"
 #include "spell_fwd.h"
+#include "spell_context.h"
 
 namespace spl
 {
@@ -32,10 +33,20 @@ namespace spl
 		template <typename T>
 		struct initializer
 		{
-			inline initializer(const std::string& alias) {
+			inline initializer(
+				const std::string& alias
+				, const context_func_t& custom_loader = nullptr) {
 				spell_factory::register_spell<T>(alias);
+				if (custom_loader)
+					spl::context::register_loader(alias, custom_loader);
 			}
 		};
+
+	protected:
+		inline const cppgen::Spell& get_data() const {
+			return m_data;
+		}
+
 	private:
 		cppgen::Spell m_data;
 	};

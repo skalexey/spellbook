@@ -29,7 +29,6 @@ namespace spl
 								if (auto option = cppgen::Option(opt_data.Copy()))
 								{
 									option.set_value(i < args.size() ? args[i] : "");
-									option.set_default_value(option.default_value());
 									l.add(option_alias, option);
 								}
 								else

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <vector>
 #include <string>
@@ -16,5 +17,6 @@ namespace spl
 	class parser;
 	using option_list = utils::ordered_map<std::string, cppgen::Option>;
 	using args_list = std::vector<std::string>;
+	using context_func_t = std::function<void(spl::context&)>;
 }
 

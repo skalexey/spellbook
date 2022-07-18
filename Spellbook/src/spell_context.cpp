@@ -1,4 +1,5 @@
 #include <iostream>
+#include "spell_factory.h"
 #include "spell_context.h"
 #include "generated/Option.h"
 #include "generated/Spell.h"
@@ -8,11 +9,14 @@
 #ifdef LOG_ON
 	#include <vl.h>
 	#include <DMBCore.h>
-	LOG_TITLE("spell_context")
+LOG_TITLE("spell_context")
+SET_LOG_DEBUG(true);
 #endif
 
 namespace spl
 {
+	context::custom_loaders_t context::m_custom_loaders;
+
 	context::context()
 	{
 	}
@@ -49,13 +53,20 @@ namespace spl
 
 	bool context::load_spells(const std::string& file_path)
 	{
-		LOCAL_LOG("load_spells()");
+		LOCAL_VERBOSE("load_spells()");
 		vl::Object db;
 		bool result = m_spells_db.Load(file_path);
 		if (result)
-			LOCAL_LOG("Loaded");
+			LOCAL_VERBOSE("Loaded");
 		else
-			LOCAL_LOG("Can't load spells from '" << file_path << "'");
+			LOG_ERROR("Can't load spells from '" << file_path << "'");
+		for (auto& [alias, code] : m_custom_loaders)
+		{
+			LOCAL_DEBUG("Call custom registry code of spell '" << alias << "'");
+			code(*this);
+		}
+		// Call only once
+		m_custom_loaders.clear();
 		return result;
 	}
 }

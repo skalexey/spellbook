@@ -17,7 +17,7 @@ namespace spl
 		static spell_ptr create(const cppgen::Spell& data, spl::context& ctx);
 		template <typename T>
 		static void register_spell(const std::string& alias) {
-			m_creator[alias] = [] (const cppgen::Spell& data){
+			m_creator[alias] = [] (const cppgen::Spell& data) {
 				return std::make_shared<T>(data);
 			};
 		}
