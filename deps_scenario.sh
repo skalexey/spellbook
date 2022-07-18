@@ -16,15 +16,15 @@ deps_scenario()
 	local enterDir=${PWD}
 	cd $depsLocation/vl_cpp_generator
 
-	log "Spellbook: Build release vl_cpp_generator" " --"
+	log_info "Spellbook: Build release vl_cpp_generator" " --"
 
 	source build.sh . release
 	local retval=$?
 	if [ $retval -ne 0 ]; then
-		log "Error occured during vl_cpp_generator build process" " ---"
+		log_error "Error occured during vl_cpp_generator build process" " ---"
 		exit 1
 	else
-		log "vl_cpp_generator has been successfully built" " ---"
+		log_success "vl_cpp_generator has been successfully built" " ---"
 	fi
 	cd $enterDir
 
@@ -41,15 +41,15 @@ deps_scenario()
 
 	local jsonConfig=resources/spellbook.json
 
-	log "Generate cpp code for JSON config '$jsonConfig'" " ---"
+	log_info "Generate cpp code for JSON config '$jsonConfig'" " ---"
 
 	vlcppgen $jsonConfig generated -print_root=false
 	local retval=$?
 	if [ $retval -ne 0 ]; then
-		log "Error during cpp generation process (code: $retval)" " ---"
+		log_error "Error during cpp generation process (code: $retval)" " ---"
 		exit 1
 	else
-		log "Cpp code generated successfully" " ---" " ------"
+		log_success "Cpp code generated successfully" " ---" " ------"
 	fi
 
 }
