@@ -11,7 +11,8 @@
                     "add-spell",
                     "remove-spell",
                     "a",
-                    "add-script-spell"
+                    "add-script-spell",
+                    "check-git-upd"
                 ],
                 "registry": {
                     "build.sh": {
@@ -54,22 +55,45 @@
                         "options": {
                             "proto": "OrderedRegistry",
                             "list": [
+                                "alias",
                                 "path",
-                                "alias"
+                                "description",
+                                "optoins",
+                                "rules"
                             ],
                             "registry": {
                                 "path": {
                                     "proto": "Option",
                                     "description": "Script path",
                                     "title": "Script path",
-                                    "alias": "path",
-                                    "default_value": ""
+                                    "alias": "path"
                                 },
                                 "alias": {
                                     "proto": "Option",
                                     "description": "Script alias",
                                     "title": "Script alias",
                                     "alias": "alias",
+                                    "default_value": ""
+                                },
+                                "description": {
+                                    "proto": "Option",
+                                    "title": "Description",
+                                    "description": "Human-readable description of a spell to display on screen",
+                                    "alias": "description",
+                                    "default_value": ""
+                                },
+                                "title": {
+                                    "proto": "Option",
+                                    "title": "Title",
+                                    "description": "Human-readable short description of a spell to display on screen",
+                                    "alias": "title",
+                                    "default_value": ""
+                                },
+                                "rules": {
+                                    "proto": "Option",
+                                    "title": "Rules",
+                                    "description": "A set of spells invocations: a string of expressions of the form <ex>(<a1>, <a2>, …, <an>) divided with semicolon. Supposed to be executed through Python. May be empty if a spell is atomic",
+                                    "alias": "rules",
                                     "default_value": ""
                                 }
                             }
@@ -114,6 +138,13 @@
                                 }
                             }
                         }
+                    },
+                    "check-git-upd": {
+                        "proto": "Spell",
+                        "description": "Check git updates script",
+                        "rules": "",
+                        "alias": "check-git-upd",
+                        "path": "~/Scripts/automation/projects/check_git_updates.sh"
                     }
                 }
             }
@@ -122,7 +153,10 @@
             "python_spells_directory": "python_spells",
             "shell_spells_directory": "shell_spells",
             "shell_cmd": "bash"
-        }
+        },
+        "script_links": [
+            "check-git-upd"
+        ]
     },
     "types": {
         "OrderedRegistry": {
