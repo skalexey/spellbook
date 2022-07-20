@@ -12,7 +12,8 @@
                     "remove-spell",
                     "a",
                     "add-script-spell",
-                    "check-git-upd"
+                    "check-git-upd",
+                    "upd-all-build-scripts"
                 ],
                 "registry": {
                     "build.sh": {
@@ -108,8 +109,9 @@
                             "list": [
                                 "alias",
                                 "description",
-                                "optoins",
-                                "rules"
+                                "rules",
+                                "title",
+                                "optoins"
                             ],
                             "registry": {
                                 "description": {
@@ -122,7 +124,8 @@
                                     "proto": "Option",
                                     "title": "Title",
                                     "description": "Human-readable short description of a spell to display on screen",
-                                    "alias": "title"
+                                    "alias": "title",
+                                    "value": "aaa"
                                 },
                                 "rules": {
                                     "proto": "Option",
@@ -145,6 +148,13 @@
                         "rules": "",
                         "alias": "check-git-upd",
                         "path": "~/Scripts/automation/projects/check_git_updates.sh"
+                    },
+                    "upd-all-build-scripts": {
+                        "proto": "Spell",
+                        "description": "",
+                        "rules": "",
+                        "alias": "upd-all-build-scripts",
+                        "path": "~/Scripts/automation/all_build_deps/update_build_scripts.sh"
                     }
                 }
             }
@@ -155,7 +165,8 @@
             "shell_cmd": "bash"
         },
         "script_links": [
-            "check-git-upd"
+            "check-git-upd",
+            "upd-all-build-scripts"
         ]
     },
     "types": {
