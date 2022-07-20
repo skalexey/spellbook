@@ -5,10 +5,9 @@
 #include "generated/content.h"
 #include "generated/types.h"
 #include "spell_context.h"
-#ifdef LOG_ON
-	LOG_TITLE("add_spell_spell")
-	SET_LOG_DEBUG(true)
-#endif
+
+LOG_PREFIX("[add_spell_spell]: ");
+LOG_POSTFIX("\n");
 
 namespace spl
 {
@@ -50,30 +49,40 @@ namespace spl
 			auto spell_class = types.get_Spell();
 			obj.SetPrototype(spell_class.get_data()->AsObject());
 			auto ret = retcode::OK;
-			spell_class.get_data()->AsObject().ForeachProp([&](auto& n, auto& v) {
+			auto& options = get_data().get_options().get_registry();
+			// spell_class.get_data()->AsObject().ForeachProp([&](auto& n, auto& v) {
+			options.get_data()->AsObject().ForeachProp([&](auto& n, auto& v) {
+				auto on_option_missed = [&] {
+					set_last_spell_msg(ctx, "option '" + n + "' is missed");
+					ret = retcode::OPTION_MISSED;
+					return false;
+				};
 				auto it = args.find(n);
 				if (it != args.end())
 				{
-					auto& opt_val = (*it).second.value();
+					auto& arg = (*it).second;
+					auto& arg_val = arg.value();
+					if (arg_val.empty())
+						if (!arg.has_data_own("default_value"))
+							return on_option_missed();
+
 					if (n == "alias")
 					{
-						new_spell_alias = opt_val;
+						new_spell_alias = arg_val;
 						if (registry_data.Has(new_spell_alias))
 						{
-							LOCAL_LOG("Error occured during casting a spell '" << alias << "': "
-									  << retmessage(retcode::ALREADY_EXISTS));
+							set_last_spell_msg(ctx, retmessage(retcode::ALREADY_EXISTS));
 							ret = retcode::ALREADY_EXISTS;
 							return false;
 						}
 					}
-					obj.Set(n, opt_val);
+					obj.Set(n, arg_val);
 				}
 				else if (n != "options") // Spell with no options is valid
 				{
-					LOCAL_LOG("Error occured during casting a spell '" << alias
-							  << "': option '" << n << "' is missed");
-					ret = retcode::OPTION_MISSED;
-					return false;
+					auto opt = cppgen::Option(v);
+					if (!opt.has_data_own("default_value"))
+						return on_option_missed();
 				}
 				return true;
 			});
@@ -84,16 +93,15 @@ namespace spl
 		}
 		else
 		{
-			LOCAL_LOG("No 'types' field in the DB has been found");
+			set_last_spell_msg(ctx, "No 'types' field in the DB has been found");
 			return retcode::DATA_ERROR;
 		}
 		spells.list().Add(vl::MakePtr(new_spell_alias));
 		if (!ctx.db().Store("", {true}))
 		{
-			LOCAL_LOG("Error occured during casting a spell '" << alias << "': can't store the Spellbook");
+			set_last_spell_msg(ctx, "can't store the Spellbook");
 			return retcode::STORE_ERROR;
 		}
-		LOCAL_LOG("Spell '" << alias << "' CASTED!");
 		return retcode::OK;
 	}
 

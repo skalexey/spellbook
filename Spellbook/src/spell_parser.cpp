@@ -148,7 +148,9 @@ namespace spl
 		if (spell_alias.empty() && !ctx.current_expr)
 			return false;
 		auto ex = std::make_shared<spell_expression>();
-		auto args = ctx.argv && ctx.argc > 2 ? args_list(&ctx.argv[2], ctx.argv + ctx.argc) : args_list();
+		auto args = ctx.argv && ctx.argc > 2 ? 
+			args_list(&ctx.argv[2], ctx.argv + ctx.argc)
+			: args_list();
 		ex->init(spell_alias, args, ctx.external_ctx);
 		ctx.root_expr = ex;
 		return true;

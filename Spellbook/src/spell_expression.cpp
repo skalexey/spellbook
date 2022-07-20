@@ -63,31 +63,69 @@ namespace spl
 		}
 		if (auto spell = spell_factory::create(*m_spell_data, ctx))
 			return spell->cast(m_args, ctx);
-		LOCAL_ERROR("Can't execute the spell '" << get_alias() << "'");
+		ctx.set_last_spell_msg("Can't execute the spell '" + get_alias() + "'");
 		return -1;
 	}
 
-	bool spell_expression::has_missed_args() const
+	bool spell_expression::is_optional(const cppgen::Option& opt) const
 	{
-		return iterate_expressions([&](auto& ex) {
-			bool result = false;
-			std::for_each(ex.get_args().begin(), ex.get_args().end(), [&](auto arg) {
-				if (!result)
-					if (arg.second.value().empty())
-						if (!arg.second.get_data("default_value"))
-							result = true;
-			});
-			return result;
+		return opt.has_data_own("default_value");
+	}
+
+	bool spell_expression::is_option_missed(const cppgen::Option& opt) const
+	{
+		auto& args = get_args();
+		if (!is_optional(opt))
+		{
+			auto& alias = opt.alias();
+			auto it = args.find(alias);
+			if (it == args.end() || (*it).second.value().empty())
+				return true;
+		}
+		return false;
+	}
+
+	bool spell_expression::has_missed_args(spl::context& ctx) const
+	{
+		return !iterate_options([&](auto& ex, auto& opt) -> bool {
+			auto& args = ex.get_args();
+			if (ex.is_option_missed(opt) || ctx.ask_optional())
+				return false; // The argument has not been given, so stop the process
+			return true;
 		});
 	}
 
-	bool spell_expression::iterate_expressions(const std::function<bool(const spell_expression&)>& pred) const
+	bool spell_expression::iterate_expressions(const const_expr_pred_t& pred) const
 	{
 		ITERATE_EXPRESSIONS;
 	}
 
-	bool spell_expression::iterate_expressions(const std::function<bool(spell_expression&)>& pred)
+	bool spell_expression::iterate_expressions(const expr_pred_t& pred)
 	{
 		ITERATE_EXPRESSIONS;
+	}
+
+	template <typename TPred, typename TExpr>
+	bool iterate_options_impl(const TPred& pred, TExpr&& ex)
+	{
+		return ex.iterate_expressions([&](auto& ex) -> bool {
+			if (auto spell_data = ex.get_spell_data())
+				if (auto& options = spell_data->get_options())
+					return options.get_registry().get_data()->AsObject().ForeachProp([&](auto& n, auto& v) {
+						auto opt = cppgen::Option(v);
+						return pred(ex, opt);
+					});
+			return true;
+		});
+	}
+
+	bool spell_expression::iterate_options(const const_option_pred_t& pred) const
+	{
+		return iterate_options_impl(pred, *this);
+	}
+
+	bool spell_expression::iterate_options(const option_pred_t& pred)
+	{
+		return iterate_options_impl(pred, *this);
 	}
 }

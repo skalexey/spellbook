@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "spell_fwd.h"
+#include "generated/fwd.h"
 
 namespace spl
 {
@@ -26,12 +27,20 @@ namespace spl
 		
 		// Iterators
 		// Recursively go through all subexpression including this
-		bool iterate_expressions(const std::function<bool(const spell_expression&)>& pred) const;
-		bool iterate_expressions(const std::function<bool(spell_expression&)>& pred);
+		using expr_pred_t = std::function<bool(spell_expression&)>;
+		using const_expr_pred_t = std::function<bool(const spell_expression&)>;
+		bool iterate_expressions(const const_expr_pred_t& pred) const;
+		bool iterate_expressions(const expr_pred_t& pred);
+		using option_pred_t = std::function<bool(spell_expression&, cppgen::Option& opt)>;
+		using const_option_pred_t = std::function<bool(const spell_expression&, const cppgen::Option& opt)>;
+		bool iterate_options(const const_option_pred_t& pred) const;
+		bool iterate_options(const option_pred_t& pred);
 		
 		// Logic
 		int execute(spl::context& ctx);
-		bool has_missed_args() const;
+		bool has_missed_args(spl::context& ctx) const;
+		bool is_option_missed(const cppgen::Option& opt) const;
+		bool is_optional(const cppgen::Option& opt) const;
 
 	private:
 		std::unique_ptr<cppgen::Spell> m_spell_data;

@@ -47,6 +47,10 @@ namespace spl
 			return m_data;
 		}
 
+		inline void set_last_spell_msg(context& ctx, const std::string& msg) {
+			ctx.set_last_spell_msg(msg);
+		}
+
 	private:
 		cppgen::Spell m_data;
 	};

@@ -12,6 +12,7 @@ namespace spl
 {
 	int spell::cast(const option_list& args, spl::context& ctx)
 	{
+		ctx.set_last_spell_msg("");
 		if (!m_data)
 		{
 			LOG_WARNING("Attempt to cast a not initialized spell");

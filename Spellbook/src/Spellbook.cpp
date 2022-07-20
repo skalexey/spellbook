@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include <exception>
 #include <vl_fwd.h>
 #include <utils/Log.h>
 #include <utils/io_utils.h>
@@ -48,32 +49,63 @@ const fs::path def_cfg_path = fs::temp_directory_path() / "spellbook_default.jso
 
 bool request_argument(cppgen::Option& opt)
 {
-	MSG("\t" << opt.title() << ": ");
+	COUT("\t" << opt.title());
+	utils::input::register_command("~skip");
+	bool is_optional = opt.has_data_own("default_value");
+	if (is_optional)
+		COUT(" (optional)");
+	COUT(": ");
 	std::string val;
-	std::cin >> val;
+	while (val.empty())
+	{
+		utils::input::getline(std::cin, val);
+		if (!utils::input::last_getline_valid)
+			if (utils::input::last_command == "~skip")
+				return false;
+		if (val.empty())
+		{
+			if (is_optional)
+			{
+				if (utils::input::ask_user("No value? Sure?"))
+					break;
+			}
+			else
+			{
+				MSG("This is a required option. It should be set (or type '~skip' to stop casting)");
+			}
+		}
+	}
+	utils::input::unregister_command("~skip");
 	opt.set_value(val);
 	// TODO: check the option validity
 	return true;
 }
 
+bool request_argument(spl::spell_expression& ex, cppgen::Option& opt)
+{
+	auto& alias = opt.alias();
+	auto& args = ex.args();
+	auto it = args.find(alias);
+	if (it == args.end())
+		return request_argument(args.add(alias, opt));
+	auto& arg = (*it).second;
+	if (arg.value().empty()) // The argument has not been given, so stop the process
+		return request_argument(arg);
+	return true;
+}
+
 bool request_missed_args(spl::spell_expression& ex, spl::context& ctx)
 {
-	return ex.iterate_expressions([&](spl::spell_expression& ex) {
-		bool result = true;
-		std::for_each(ex.get_args().begin(), ex.get_args().end(), [&](auto arg) {
-			if (result)
-				if (arg.second.value().empty())
-					if (arg.second.default_value().empty())
-						if (!request_argument(arg.second))
-							result = false; // The argument has not been given, so stop the process
-		});
-		return result;
+	return ex.iterate_options([&](auto& ex, auto& opt) -> bool {
+		if (ex.is_option_missed(opt) || ctx.ask_optional())
+			return request_argument(ex, opt);
+		return true;
 	});
 }
 
 std::optional<int> load_sb(spl::context& ctx)
 {
-	utils::input::register_command("skip");
+	utils::input::register_command("~skip");
 	
 	const std::string sb_fname = "spellbook.json";
 
@@ -139,9 +171,9 @@ std::optional<int> load_sb(spl::context& ctx)
 
 				if (!utils::input::last_getline_valid)
 				{
-					if (utils::input::last_command == "exit")
+					if (utils::input::last_command == "~exit")
 						return 0;
-					else if (utils::input::last_command == "skip")
+					else if (utils::input::last_command == "~skip")
 						break;
 				}
 				auto p = fs::path(dir);
@@ -194,16 +226,19 @@ std::optional<int> load_sb(spl::context& ctx)
 int main(int argc, char const* argv[])
 {
 	LOG("=== Spellbook Project ===\n");
-	utils::input::register_command("exit");
+	utils::input::register_command("~exit", [] {
+		std::terminate();
+		return false;
+	});
 	spl::context ctx;
 	auto ret = load_sb(ctx);
 	if (ret)
 		return ret.value();
 	
-	utils::input::unregister_command("skip");
+	utils::input::unregister_command("~skip");
 
 	auto process_ex_args = [&](const spl::spell_expression_ptr& ex) {
-		if (ex->has_missed_args())
+		if (ex->has_missed_args(ctx))
 			if (!request_missed_args(*ex, ctx))
 			{
 				MSG("	Some arguments has been not provided. Can't cast the spell");
@@ -216,14 +251,29 @@ int main(int argc, char const* argv[])
 		MSG("	Can't figure out what you've said");
 	};
 
+	int result = -1;
+
+	auto on_cast = [&] {
+		if (result == 0)
+			MSG("CASTED!");
+		else
+		{
+			if (!ctx.last_spell_msg().empty())
+				MSG("Error during casting: '" << ctx.last_spell_msg() << "' (code " << result << ")");
+			else
+				LOG_DEBUG("Error during casting: code " << result);
+		}
+	};
+
 	if (argc < 2)
 	{
+		ctx.set_ask_optional(true);
 		std::string s;
 		while (true)
 		{
 			COUT("Your spell: ");
 			std::getline(std::cin, s);
-			if (s == "exit")
+			if (s == "~exit")
 				break;
 			MSG("");
 			//		MSG(" parse string '" << s);
@@ -233,11 +283,13 @@ int main(int argc, char const* argv[])
 			{
 				if (!process_ex_args(spell_ex))
 					continue;
-				int result = spell_ex->execute(ctx);
+				result = spell_ex->execute(ctx);
 			}
 			else
 				on_cant_parse();
 			s.clear();
+
+			on_cast();
 		}
 	}
 	else
@@ -245,10 +297,13 @@ int main(int argc, char const* argv[])
 		if (auto spell_ex = spl::parser::parse(argc, argv, ctx))
 		{
 			if (process_ex_args(spell_ex))
-				int result = spell_ex->execute(ctx);
+				result = spell_ex->execute(ctx);
 		}
 		else
 			on_cant_parse();
+
+		on_cast();
 	}
+	
 	return 0;
 }
