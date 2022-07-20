@@ -111,10 +111,19 @@ namespace spl
 		return ex.iterate_expressions([&](auto& ex) -> bool {
 			if (auto spell_data = ex.get_spell_data())
 				if (auto& options = spell_data->get_options())
-					return options.get_registry().get_data()->AsObject().ForeachProp([&](auto& n, auto& v) {
-						auto opt = cppgen::Option(v);
-						return pred(ex, opt);
-					});
+				{
+					auto& list = options.get_list();
+					for (int i = 0; i < list.Size(); i++)
+					{
+						auto& alias = list.At(i).AsString().Val();
+						if (auto& opt_data = options.get_registry().get_data()->AsObject().Get(alias))
+						{
+							auto opt = cppgen::Option(opt_data);
+							if (!pred(ex, opt))
+								return false;
+						}
+					}
+				}
 			return true;
 		});
 	}
