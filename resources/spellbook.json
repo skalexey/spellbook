@@ -10,21 +10,16 @@
                     "spell-list",
                     "add-spell",
                     "remove-spell",
-                    "a",
                     "add-script-spell",
                     "check-git-upd",
                     "upd-all-build-scripts",
                     "add-cpp-module",
                     "all-bld-upd",
-                    "sync"
+                    "sync",
+                    "list",
+                    "check-projs"
                 ],
                 "registry": {
-                    "a": {
-                        "proto": "Spell",
-                        "description": "b",
-                        "alias": "a",
-                        "rules": "c"
-                    },
                     "cmake-project": {
                         "proto": "Spell",
                         "description": "Create a new CMake project with options: build.sh, Test directory, library, executable",
@@ -64,9 +59,9 @@
                             "proto": "OrderedRegistry",
                             "list": [
                                 "alias",
+                                "title",
                                 "description",
                                 "rules",
-                                "title",
                                 "optoins"
                             ],
                             "registry": {
@@ -74,8 +69,7 @@
                                     "proto": "Option",
                                     "description": "Human-readable short description of a spell to display on screen",
                                     "title": "Title",
-                                    "alias": "title",
-                                    "value": "aaa"
+                                    "alias": "title"
                                 },
                                 "description": {
                                     "proto": "Option",
@@ -87,7 +81,8 @@
                                     "proto": "Option",
                                     "description": "A set of spells invocations: a string of expressions of the form <ex>(<a1>, <a2>, …, <an>) divided with semicolon. Supposed to be executed through Python. May be empty if a spell is atomic",
                                     "title": "Rules",
-                                    "alias": "rules"
+                                    "alias": "rules",
+                                    "default_value": ""
                                 },
                                 "alias": {
                                     "proto": "Option",
@@ -117,16 +112,14 @@
                                     "proto": "Option",
                                     "title": "Script path",
                                     "description": "Script path",
-                                    "alias": "path",
-                                    "value": "~/Scripts/automation/templates/add-cpp-module.sh"
+                                    "alias": "path"
                                 },
                                 "alias": {
                                     "proto": "Option",
                                     "title": "Script alias",
                                     "description": "Script alias",
                                     "alias": "alias",
-                                    "default_value": "",
-                                    "value": "add-cpp-module"
+                                    "default_value": ""
                                 },
                                 "title": {
                                     "proto": "Option",
@@ -164,17 +157,29 @@
                         "description": "",
                         "rules": "",
                         "alias": "upd-all-build-scripts",
-                        "path": "C:/Users/skoro/Scripts/automation/all_build_deps/update_build_scripts.sh"
+                        "path": "~/Scripts/automation/all_build_deps/update_build_scripts.sh"
                     },
                     "all-bld-upd": {
                         "proto": "Spell",
-                        "path": "C:/Users/skoro/Scripts/automation/all_build_deps/update_build_scripts.sh",
+                        "path": "~/Scripts/automation/all_build_deps/update_build_scripts.sh",
                         "alias": "all-bld-upd"
                     },
                     "sync": {
                         "proto": "Spell",
-                        "path": "C:/Users/skoro/Projects/Spellbook/sync_sb.sh",
+                        "path": "~/Projects/Spellbook/sync_sb.sh",
                         "alias": "sync"
+                    },
+                    "list": {
+                        "proto": "Spell",
+                        "description": "Shows the list of all registered spells",
+                        "title": "Spell list",
+                        "rules": "-",
+                        "alias": "list"
+                    },
+                    "check-projs": {
+                        "proto": "Spell",
+                        "path": "~/Scripts/automation/projects/check_git_projects.sh",
+                        "alias": "check-projs"
                     }
                 }
             }
@@ -189,7 +194,8 @@
             "upd-all-build-scripts",
             "add-cpp-module",
             "all-bld-upd",
-            "sync"
+            "sync",
+            "check-projs"
         ]
     },
     "types": {
