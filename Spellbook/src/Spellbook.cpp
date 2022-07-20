@@ -87,7 +87,7 @@ bool request_argument(spl::spell_expression& ex, cppgen::Option& opt)
 	auto& args = ex.args();
 	auto it = args.find(alias);
 	if (it == args.end())
-		return request_argument(args.add(alias, opt));
+		return request_argument(args.add(alias, cppgen::Option(opt.get_data()->Copy())));
 	auto& arg = (*it).second;
 	if (arg.value().empty()) // The argument has not been given, so stop the process
 		return request_argument(arg);
