@@ -19,6 +19,8 @@ namespace cppgen
 		// Data validation checker through the bool operator
 		operator bool() const;
 		const vl::Var& get_data(const std::string& field_name) const;
+		bool has_data(const std::string& field_name) const;
+		bool has_data_own(const std::string& field_name) const;
 		// Data getter for internal use
 		inline const vl::VarPtr& get_data() const {
 			return m_data;

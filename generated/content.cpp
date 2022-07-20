@@ -48,6 +48,26 @@ namespace cppgen
 		return data_obj.Get(field_name);
 	}
 	
+	bool content::has_data(const std::string& field_name) const
+	{
+		if (!m_data)
+			return vl::emptyVar;
+		if (!m_data->IsObject())
+			return vl::emptyVar;
+		auto& data_obj = m_data->AsObject();
+		return data_obj.Has(field_name);
+	}
+	
+	bool content::has_data_own(const std::string& field_name) const
+	{
+		if (!m_data)
+			return vl::emptyVar;
+		if (!m_data->IsObject())
+			return vl::emptyVar;
+		auto& data_obj = m_data->AsObject();
+		return data_obj.HasOwn(field_name);
+	}
+	
 	// Field access
 	// "spellbook" field
 	content::spellbook&  content::get_spellbook()
@@ -133,6 +153,26 @@ namespace cppgen
 			return vl::emptyVar;
 		auto& data_obj = m_data->AsObject();
 		return data_obj.Get(field_name);
+	}
+	
+	bool content::config::has_data(const std::string& field_name) const
+	{
+		if (!m_data)
+			return vl::emptyVar;
+		if (!m_data->IsObject())
+			return vl::emptyVar;
+		auto& data_obj = m_data->AsObject();
+		return data_obj.Has(field_name);
+	}
+	
+	bool content::config::has_data_own(const std::string& field_name) const
+	{
+		if (!m_data)
+			return vl::emptyVar;
+		if (!m_data->IsObject())
+			return vl::emptyVar;
+		auto& data_obj = m_data->AsObject();
+		return data_obj.HasOwn(field_name);
 	}
 	
 	// Field access

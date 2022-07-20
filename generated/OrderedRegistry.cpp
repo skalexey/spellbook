@@ -46,6 +46,26 @@ namespace cppgen
 		return data_obj.Get(field_name);
 	}
 	
+	bool OrderedRegistry::has_data(const std::string& field_name) const
+	{
+		if (!m_data)
+			return vl::emptyVar;
+		if (!m_data->IsObject())
+			return vl::emptyVar;
+		auto& data_obj = m_data->AsObject();
+		return data_obj.Has(field_name);
+	}
+	
+	bool OrderedRegistry::has_data_own(const std::string& field_name) const
+	{
+		if (!m_data)
+			return vl::emptyVar;
+		if (!m_data->IsObject())
+			return vl::emptyVar;
+		auto& data_obj = m_data->AsObject();
+		return data_obj.HasOwn(field_name);
+	}
+	
 	// Field access
 	// "list" field
 	vl::List& OrderedRegistry::list()
@@ -108,6 +128,26 @@ namespace cppgen
 			return vl::emptyVar;
 		auto& data_obj = m_data->AsObject();
 		return data_obj.Get(field_name);
+	}
+	
+	bool OrderedRegistry::registry::has_data(const std::string& field_name) const
+	{
+		if (!m_data)
+			return vl::emptyVar;
+		if (!m_data->IsObject())
+			return vl::emptyVar;
+		auto& data_obj = m_data->AsObject();
+		return data_obj.Has(field_name);
+	}
+	
+	bool OrderedRegistry::registry::has_data_own(const std::string& field_name) const
+	{
+		if (!m_data)
+			return vl::emptyVar;
+		if (!m_data->IsObject())
+			return vl::emptyVar;
+		auto& data_obj = m_data->AsObject();
+		return data_obj.HasOwn(field_name);
 	}
 	
 }
