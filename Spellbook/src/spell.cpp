@@ -15,10 +15,10 @@ namespace spl
 		ctx.set_last_spell_msg("");
 		if (!m_data)
 		{
-			LOG_WARNING("Attempt to cast a not initialized spell");
-			return false;
+			ctx.set_last_spell_msg("Attempt to cast a not initialized spell");
+			return erc::NO_DATA;
 		}
-		return true;
+		return erc::OK;
 	}
 
 	const std::string& spl::spell::get_alias() const

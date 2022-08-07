@@ -7,16 +7,16 @@ namespace spl
 {
 	class add_spell_spell : public spell
 	{
+		using base = spell;
 	public:
 		add_spell_spell() = default;
 		add_spell_spell(const vl::Var& data) : spell(data) {};
 		add_spell_spell(const vl::VarPtr& data) : spell(data) {};
 		add_spell_spell(const cppgen::Spell& data) : spell(data) {};
 		
-		enum retcode : int
+		enum erc : int
 		{
-			OK,
-			ALREADY_EXISTS,
+			ALREADY_EXISTS = base::erc::COUNT,
 			DATA_ERROR,
 			OPTION_MISSED,
 			STORE_ERROR,

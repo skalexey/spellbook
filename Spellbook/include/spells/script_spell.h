@@ -6,6 +6,8 @@ namespace spl
 {
 	class script_spell : public spell
 	{
+		using base = spell;
+
 	public:
 		script_spell() = default;
 		script_spell(const vl::Var& data) : spell(data) {};

@@ -22,6 +22,11 @@ namespace spl
 	class spell
 	{
 	public:
+		enum erc: int{
+			OK,
+			NO_DATA,
+			COUNT
+		};
 		spell() = default;
 		spell(const vl::Var& data) : m_data(data) {};
 		spell(const vl::VarPtr& data) : m_data(data) {};

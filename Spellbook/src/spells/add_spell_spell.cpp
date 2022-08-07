@@ -16,11 +16,11 @@ namespace spl
 	std::unordered_map<int, std::string> add_spell_spell::create_retcode_message_map()
 	{
 		std::unordered_map<int, std::string> result;
-		result[int(retcode::OK)] = "Casted successfully";
-		result[retcode::ALREADY_EXISTS] = "A spell with this alias already exists";
-		result[retcode::DATA_ERROR] = "Data error";
-		result[retcode::OPTION_MISSED] = "Option missed";
-		result[retcode::STORE_ERROR] = "Store error";
+		result[int(base::erc::OK)] = "Casted successfully";
+		result[erc::ALREADY_EXISTS] = "A spell with this alias already exists";
+		result[erc::DATA_ERROR] = "Data error";
+		result[erc::OPTION_MISSED] = "Option missed";
+		result[erc::STORE_ERROR] = "Store error";
 		return result;
 	}
 
@@ -37,6 +37,9 @@ namespace spl
 	const add_spell_spell::initializer add_spell_spell::m_initializer("add-spell");
 	int add_spell_spell::cast(const option_list& args, spl::context& ctx)
 	{
+		int ret = base::cast(args, ctx);
+		if (ret != base::erc::OK)
+			return ret;
 		auto spells = ctx.get_content_data().get_spellbook().get_spells();
 		auto& alias = get_alias();
 		auto& registry = spells.get_registry();
@@ -48,13 +51,12 @@ namespace spl
 		{
 			auto spell_class = types.get_Spell();
 			obj.SetPrototype(spell_class.get_data()->AsObject());
-			auto ret = retcode::OK;
 			auto& options = get_data().get_options().get_registry();
 			// spell_class.get_data()->AsObject().ForeachProp([&](auto& n, auto& v) {
 			options.get_data()->AsObject().ForeachProp([&](auto& n, auto& v) {
 				auto on_option_missed = [&] {
 					set_last_spell_msg(ctx, "option '" + n + "' is missed");
-					ret = retcode::OPTION_MISSED;
+					ret = erc::OPTION_MISSED;
 					return false;
 				};
 				auto it = args.find(n);
@@ -71,8 +73,8 @@ namespace spl
 						new_spell_alias = arg_val;
 						if (registry_data.Has(new_spell_alias))
 						{
-							set_last_spell_msg(ctx, retmessage(retcode::ALREADY_EXISTS));
-							ret = retcode::ALREADY_EXISTS;
+							set_last_spell_msg(ctx, retmessage(erc::ALREADY_EXISTS));
+							ret = erc::ALREADY_EXISTS;
 							return false;
 						}
 					}
@@ -86,7 +88,7 @@ namespace spl
 				}
 				return true;
 			});
-			if (ret != retcode::OK)
+			if (ret != base::erc::OK)
 				return ret;
 
 			registry_data.Set(new_spell_alias, obj);
@@ -94,15 +96,15 @@ namespace spl
 		else
 		{
 			set_last_spell_msg(ctx, "No 'types' field in the DB has been found");
-			return retcode::DATA_ERROR;
+			return ret = erc::DATA_ERROR;
 		}
 		spells.list().Add(vl::MakePtr(new_spell_alias));
 		if (!ctx.db().Store("", {true}))
 		{
 			set_last_spell_msg(ctx, "can't store the Spellbook");
-			return retcode::STORE_ERROR;
+			return ret = erc::STORE_ERROR;
 		}
-		return retcode::OK;
+		return ret;
 	}
 
 }

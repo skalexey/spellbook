@@ -18,11 +18,14 @@ namespace spl
 	const list_spell::initializer list_spell::m_initializer("list");
 	int list_spell::cast(const option_list& args, spl::context& ctx)
 	{
+		int erc = base::cast(args, ctx);
+		if (erc != base::erc::OK)
+			return erc;
 		auto spells = ctx.get_content_data().get_spellbook().get_spells();
 		auto& list = spells.get_list();
 		for (int i = 0; i < list.Size(); i++)
 			MSG(list.At(i).AsString().Val());
-		return retcode::OK;
+		return base::erc::OK;
 	}
 
 }

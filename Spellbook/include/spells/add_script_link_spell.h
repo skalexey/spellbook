@@ -9,9 +9,9 @@ namespace spl
 	{
 	public:
 		using base = add_spell_spell;
-		enum retcode : int
+		enum erc : int
 		{
-			REGISTRY_ERROR = base::retcode::COUNT
+			REGISTRY_ERROR = base::erc::COUNT
 		};
 		add_script_link_spell() = default;
 		add_script_link_spell(const vl::Var& data) : base(data) {};

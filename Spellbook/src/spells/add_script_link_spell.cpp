@@ -23,7 +23,7 @@ namespace spl
 	std::unordered_map<int, std::string> add_script_link_spell::create_retcode_message_map()
 	{
 		std::unordered_map<int, std::string> result;
-		result[int(retcode::REGISTRY_ERROR)] = "Can't find spell data after its successfull creation";
+		result[int(erc::REGISTRY_ERROR)] = "Can't find spell data after its successfull creation";
 		return result;
 	}
 
@@ -53,7 +53,7 @@ namespace spl
 		// Preprocess arguments logic
 		auto it_path = args.find("path");
 		if (it_path == args.end())
-			return base::retcode::OPTION_MISSED;
+			return base::erc::OPTION_MISSED;
 
 		auto& path = args.get_value("path").value();
 
@@ -80,9 +80,9 @@ namespace spl
 
 		// Add the spell with basic data using base class method
 		ctx.set_store_allowed(false);
-		auto ret = base::cast(args_copy, ctx);
+		int ret = base::cast(args_copy, ctx);
 		ctx.set_store_allowed(true);
-		if (ret != base::retcode::OK && ret != base::retcode::STORE_ERROR)
+		if (ret != spell::erc::OK && ret != base::erc::STORE_ERROR)
 			return ret;
 		
 		// Get the newly created data from the registry
@@ -90,7 +90,7 @@ namespace spl
 		auto& registry_data = registry.get_data()->AsObject();
 		
 		if (!registry_data.Has(new_spell_alias))
-			return retcode::REGISTRY_ERROR;
+			return erc::REGISTRY_ERROR;
 
 		// Add path field to the created spell
 		auto& new_spell_data = registry_data.Get(new_spell_alias).AsObject();
@@ -107,7 +107,7 @@ namespace spl
 		if (!ctx.db().Store("", { true }))
 		{
 			set_last_spell_msg(ctx, "can't store the Spellbook");
-			return base::retcode::STORE_ERROR;
+			return base::erc::STORE_ERROR;
 		}
 
 		// Register the spell so you can use it in this session just right after creation
