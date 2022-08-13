@@ -17,13 +17,13 @@ namespace spl
 		spell_expression() = default;
 		bool init(const std::string& alias, const args_list& args, spl::context& ctx);
 		// Getters
-		inline const option_list& get_args() const { return m_args; }
-		inline option_list& args() { return m_args; }
+		const option_list& get_args() const { return m_args; }
+		option_list& args() { return m_args; }
 		const std::string& get_alias() const;
-		inline cppgen::Spell* spell_data() { return m_spell_data.get(); }
-		inline const cppgen::Spell* get_spell_data() const { return m_spell_data.get(); }
-		inline const children_t& get_children() const { return m_children; }
-		inline children_t& children() { return m_children; }
+		cppgen::Spell* spell_data() { return m_spell_data.get(); }
+		const cppgen::Spell* get_spell_data() const { return m_spell_data.get(); }
+		const children_t& get_children() const { return m_children; }
+		children_t& children() { return m_children; }
 		
 		// Iterators
 		// Recursively go through all subexpression including this

@@ -19,7 +19,7 @@ namespace spl
 		cppgen::Spell get_spell_data(const std::string& alias) const;
 		cppgen::content get_content_data() const;
 		cppgen::types get_types_data() const;
-		inline dmb::Model& db() {
+		dmb::Model& db() {
 			if (m_store_allowed)
 				return m_spells_db;
 			else
@@ -28,7 +28,7 @@ namespace spl
 				return empty_model;
 			}
 		}
-		inline const dmb::Model& db() const {
+		const dmb::Model& db() const {
 			return m_spells_db;
 		}
 		static void register_loader(
@@ -38,24 +38,24 @@ namespace spl
 			m_custom_loaders[alias] = custom_loader;
 		}
 		// Returns a flag for determine wether to ask optional parameters or not
-		inline bool ask_optional() const {
+		bool ask_optional() const {
 			return m_ask_optional;
 		}
-		inline void set_ask_optional(bool value) {
+		void set_ask_optional(bool value) {
 			m_ask_optional = value;
 		}
-		inline void set_store_allowed(bool value) {
+		void set_store_allowed(bool value) {
 			m_store_allowed = value;
 		}
-		inline const bool store_allowed() const {
+		const bool store_allowed() const {
 			return m_store_allowed;
 		}
-		inline const std::string last_spell_msg() const {
+		const std::string last_spell_msg() const {
 			return m_last_spell_msg;
 		}
 
 	protected:
-		inline void set_last_spell_msg(const std::string& s) {
+		void set_last_spell_msg(const std::string& s) {
 			m_last_spell_msg = s;
 		}
 	private:

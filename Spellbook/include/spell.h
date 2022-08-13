@@ -38,7 +38,7 @@ namespace spl
 		template <typename T>
 		struct initializer
 		{
-			inline initializer(
+			initializer(
 				const std::string& alias
 				, const context_func_t& custom_loader = nullptr) {
 				spell_factory::register_spell<T>(alias);
@@ -48,11 +48,11 @@ namespace spl
 		};
 
 	protected:
-		inline const cppgen::Spell& get_data() const {
+		const cppgen::Spell& get_data() const {
 			return m_data;
 		}
 
-		inline void set_last_spell_msg(context& ctx, const std::string& msg) {
+		void set_last_spell_msg(context& ctx, const std::string& msg) {
 			ctx.set_last_spell_msg(msg);
 		}
 
