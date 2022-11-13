@@ -22,14 +22,14 @@ namespace cppgen
 		bool has_data(const std::string& field_name) const;
 		bool has_data_own(const std::string& field_name) const;
 		// Data getter for internal use
-		inline const vl::VarPtr& get_data() const {
+		const vl::VarPtr& get_data() const {
 			return m_data;
 		}
 		
 		// Field access
-		// "OrderedRegistry" field
-		OrderedRegistry&  get_OrderedRegistry();
-		const OrderedRegistry&  get_OrderedRegistry() const;
+		// "Spell" field
+		Spell&  get_Spell();
+		const Spell&  get_Spell() const;
 		
 		// "Spellbook" field
 		Spellbook&  get_Spellbook();
@@ -39,22 +39,22 @@ namespace cppgen
 		Option&  get_Option();
 		const Option&  get_Option() const;
 		
-		// "Spell" field
-		Spell&  get_Spell();
-		const Spell&  get_Spell() const;
+		// "OrderedRegistry" field
+		OrderedRegistry&  get_OrderedRegistry();
+		const OrderedRegistry&  get_OrderedRegistry() const;
 		
 	protected:
 		// Data getter for internal use
-		inline const vl::VarPtr& _data_() const {
+		const vl::VarPtr& _data_() const {
 			return m_data;
 		}
 	
 	private:
 		// Data members
-		class OrderedRegistry m_OrderedRegistry;
+		class Spell m_Spell;
 		class Spellbook m_Spellbook;
 		class Option m_Option;
-		class Spell m_Spell;
+		class OrderedRegistry m_OrderedRegistry;
 		vl::VarPtr m_data;
 	};
 }

@@ -19,7 +19,7 @@ namespace cppgen
 		bool has_data(const std::string& field_name) const;
 		bool has_data_own(const std::string& field_name) const;
 		// Data getter for internal use
-		inline const vl::VarPtr& get_data() const {
+		const vl::VarPtr& get_data() const {
 			return m_data;
 		}
 		
@@ -40,7 +40,7 @@ namespace cppgen
 		
 	protected:
 		// Data getter for internal use
-		inline const vl::VarPtr& _data_() const {
+		const vl::VarPtr& _data_() const {
 			return m_data;
 		}
 	

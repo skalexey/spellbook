@@ -17,7 +17,7 @@ namespace cppgen
 		bool has_data(const std::string& field_name) const;
 		bool has_data_own(const std::string& field_name) const;
 		// Data getter for internal use
-		inline const vl::VarPtr& get_data() const {
+		const vl::VarPtr& get_data() const {
 			return m_data;
 		}
 		
@@ -35,13 +35,13 @@ namespace cppgen
 			bool has_data(const std::string& field_name) const;
 			bool has_data_own(const std::string& field_name) const;
 			// Data getter for internal use
-			inline const vl::VarPtr& get_data() const {
+			const vl::VarPtr& get_data() const {
 				return m_data;
 			}
 			
 		protected:
 			// Data getter for internal use
-			inline const vl::VarPtr& _data_() const {
+			const vl::VarPtr& _data_() const {
 				return m_data;
 			}
 		
@@ -50,17 +50,17 @@ namespace cppgen
 			vl::VarPtr m_data;
 		};
 		// Field access
-		// "list" field
-		vl::List& list();
-		const vl::List& get_list() const;
-		
 		// "registry" field
 		registry&  get_registry();
 		const registry&  get_registry() const;
 		
+		// "list" field
+		vl::List& list();
+		const vl::List& get_list() const;
+		
 	protected:
 		// Data getter for internal use
-		inline const vl::VarPtr& _data_() const {
+		const vl::VarPtr& _data_() const {
 			return m_data;
 		}
 	

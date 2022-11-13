@@ -19,20 +19,11 @@ namespace cppgen
 		bool has_data(const std::string& field_name) const;
 		bool has_data_own(const std::string& field_name) const;
 		// Data getter for internal use
-		inline const vl::VarPtr& get_data() const {
+		const vl::VarPtr& get_data() const {
 			return m_data;
 		}
 		
 		// Nested object fields classes
-		class spellbook : public Spellbook
-		{
-		public:
-			// Initializers
-			spellbook() = default;
-			spellbook(const vl::VarPtr& data);
-			spellbook(const vl::Var& data);
-			// Data validation checker through the bool operator
-		};
 		class config
 		{
 		public:
@@ -46,26 +37,26 @@ namespace cppgen
 			bool has_data(const std::string& field_name) const;
 			bool has_data_own(const std::string& field_name) const;
 			// Data getter for internal use
-			inline const vl::VarPtr& get_data() const {
+			const vl::VarPtr& get_data() const {
 				return m_data;
 			}
 			
 			// Field access
-			// "python_spells_directory" field
-			const std::string& python_spells_directory() const;
-			void set_python_spells_directory(const std::string& value);
+			// "shell_cmd" field
+			const std::string& shell_cmd() const;
+			void set_shell_cmd(const std::string& value);
 			
 			// "shell_spells_directory" field
 			const std::string& shell_spells_directory() const;
 			void set_shell_spells_directory(const std::string& value);
 			
-			// "shell_cmd" field
-			const std::string& shell_cmd() const;
-			void set_shell_cmd(const std::string& value);
+			// "python_spells_directory" field
+			const std::string& python_spells_directory() const;
+			void set_python_spells_directory(const std::string& value);
 			
 		protected:
 			// Data getter for internal use
-			inline const vl::VarPtr& _data_() const {
+			const vl::VarPtr& _data_() const {
 				return m_data;
 			}
 		
@@ -73,29 +64,38 @@ namespace cppgen
 			// Data members
 			vl::VarPtr m_data;
 		};
+		class spellbook : public Spellbook
+		{
+		public:
+			// Initializers
+			spellbook() = default;
+			spellbook(const vl::VarPtr& data);
+			spellbook(const vl::Var& data);
+			// Data validation checker through the bool operator
+		};
 		// Field access
-		// "spellbook" field
-		spellbook&  get_spellbook();
-		const spellbook&  get_spellbook() const;
+		// "script_links" field
+		vl::List& script_links();
+		const vl::List& get_script_links() const;
 		
 		// "config" field
 		config&  get_config();
 		const config&  get_config() const;
 		
-		// "script_links" field
-		vl::List& script_links();
-		const vl::List& get_script_links() const;
+		// "spellbook" field
+		spellbook&  get_spellbook();
+		const spellbook&  get_spellbook() const;
 		
 	protected:
 		// Data getter for internal use
-		inline const vl::VarPtr& _data_() const {
+		const vl::VarPtr& _data_() const {
 			return m_data;
 		}
 	
 	private:
 		// Data members
-		class spellbook m_spellbook;
 		class config m_config;
+		class spellbook m_spellbook;
 		vl::VarPtr m_data;
 	};
 }

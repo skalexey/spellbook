@@ -55,8 +55,8 @@ namespace cppgen
 	}
 	
 	// Field access
-	// "default_value" field
-	const std::string& Option::default_value() const
+	// "alias" field
+	const std::string& Option::alias() const
 	{
 		static std::string empty_val = "";
 		if (!m_data)
@@ -64,20 +64,45 @@ namespace cppgen
 		if (!m_data->IsObject())
 			return empty_val;
 		auto& data_obj = m_data->AsObject();
-		auto& data_default_value = data_obj.Get("default_value");
-		if (!data_default_value.IsString())
+		auto& data_alias = data_obj.Get("alias");
+		if (!data_alias.IsString())
 			return empty_val;
-		return data_default_value.AsString().Val();
+		return data_alias.AsString().Val();
 	}
 	
-	void Option::set_default_value(const std::string& value)
+	void Option::set_alias(const std::string& value)
 	{
 		if (!m_data)
 			return;
 		if (!m_data->IsObject())
 			return;
 		auto& data_obj = m_data->AsObject();
-		data_obj.Set("default_value", value);
+		data_obj.Set("alias", value);
+	}
+	
+	// "value" field
+	const std::string& Option::value() const
+	{
+		static std::string empty_val = "";
+		if (!m_data)
+			return empty_val;
+		if (!m_data->IsObject())
+			return empty_val;
+		auto& data_obj = m_data->AsObject();
+		auto& data_value = data_obj.Get("value");
+		if (!data_value.IsString())
+			return empty_val;
+		return data_value.AsString().Val();
+	}
+	
+	void Option::set_value(const std::string& value)
+	{
+		if (!m_data)
+			return;
+		if (!m_data->IsObject())
+			return;
+		auto& data_obj = m_data->AsObject();
+		data_obj.Set("value", value);
 	}
 	
 	// "description" field
@@ -130,8 +155,8 @@ namespace cppgen
 		data_obj.Set("title", value);
 	}
 	
-	// "value" field
-	const std::string& Option::value() const
+	// "default_value" field
+	const std::string& Option::default_value() const
 	{
 		static std::string empty_val = "";
 		if (!m_data)
@@ -139,45 +164,20 @@ namespace cppgen
 		if (!m_data->IsObject())
 			return empty_val;
 		auto& data_obj = m_data->AsObject();
-		auto& data_value = data_obj.Get("value");
-		if (!data_value.IsString())
+		auto& data_default_value = data_obj.Get("default_value");
+		if (!data_default_value.IsString())
 			return empty_val;
-		return data_value.AsString().Val();
+		return data_default_value.AsString().Val();
 	}
 	
-	void Option::set_value(const std::string& value)
+	void Option::set_default_value(const std::string& value)
 	{
 		if (!m_data)
 			return;
 		if (!m_data->IsObject())
 			return;
 		auto& data_obj = m_data->AsObject();
-		data_obj.Set("value", value);
-	}
-	
-	// "alias" field
-	const std::string& Option::alias() const
-	{
-		static std::string empty_val = "";
-		if (!m_data)
-			return empty_val;
-		if (!m_data->IsObject())
-			return empty_val;
-		auto& data_obj = m_data->AsObject();
-		auto& data_alias = data_obj.Get("alias");
-		if (!data_alias.IsString())
-			return empty_val;
-		return data_alias.AsString().Val();
-	}
-	
-	void Option::set_alias(const std::string& value)
-	{
-		if (!m_data)
-			return;
-		if (!m_data->IsObject())
-			return;
-		auto& data_obj = m_data->AsObject();
-		data_obj.Set("alias", value);
+		data_obj.Set("default_value", value);
 	}
 	
 }

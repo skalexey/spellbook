@@ -19,7 +19,7 @@ namespace cppgen
 		bool has_data(const std::string& field_name) const;
 		bool has_data_own(const std::string& field_name) const;
 		// Data getter for internal use
-		inline const vl::VarPtr& get_data() const {
+		const vl::VarPtr& get_data() const {
 			return m_data;
 		}
 		
@@ -34,25 +34,25 @@ namespace cppgen
 			// Data validation checker through the bool operator
 		};
 		// Field access
-		// "rules" field
-		const std::string& rules() const;
-		void set_rules(const std::string& value);
-		
-		// "options" field
-		options&  get_options();
-		const options&  get_options() const;
+		// "alias" field
+		const std::string& alias() const;
+		void set_alias(const std::string& value);
 		
 		// "description" field
 		const std::string& description() const;
 		void set_description(const std::string& value);
 		
-		// "alias" field
-		const std::string& alias() const;
-		void set_alias(const std::string& value);
+		// "options" field
+		options&  get_options();
+		const options&  get_options() const;
+		
+		// "rules" field
+		const std::string& rules() const;
+		void set_rules(const std::string& value);
 		
 	protected:
 		// Data getter for internal use
-		inline const vl::VarPtr& _data_() const {
+		const vl::VarPtr& _data_() const {
 			return m_data;
 		}
 	

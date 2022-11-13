@@ -13,10 +13,10 @@ namespace cppgen
 		if (!m_data->IsObject())
 			return;
 		auto& data_obj = m_data->AsObject();
-		m_OrderedRegistry = {vl::MakePtr(data_obj.Get("OrderedRegistry"))};
+		m_Spell = {vl::MakePtr(data_obj.Get("Spell"))};
 		m_Spellbook = {vl::MakePtr(data_obj.Get("Spellbook"))};
 		m_Option = {vl::MakePtr(data_obj.Get("Option"))};
-		m_Spell = {vl::MakePtr(data_obj.Get("Spell"))};
+		m_OrderedRegistry = {vl::MakePtr(data_obj.Get("OrderedRegistry"))};
 	}
 	
 	types::types(const vl::Var& data)
@@ -27,10 +27,10 @@ namespace cppgen
 		if (!m_data->IsObject())
 			return;
 		auto& data_obj = m_data->AsObject();
-		m_OrderedRegistry = {vl::MakePtr(data_obj.Get("OrderedRegistry"))};
+		m_Spell = {vl::MakePtr(data_obj.Get("Spell"))};
 		m_Spellbook = {vl::MakePtr(data_obj.Get("Spellbook"))};
 		m_Option = {vl::MakePtr(data_obj.Get("Option"))};
-		m_Spell = {vl::MakePtr(data_obj.Get("Spell"))};
+		m_OrderedRegistry = {vl::MakePtr(data_obj.Get("OrderedRegistry"))};
 	}
 	
 	types::operator bool() const
@@ -73,15 +73,15 @@ namespace cppgen
 	}
 	
 	// Field access
-	// "OrderedRegistry" field
-	OrderedRegistry&  types::get_OrderedRegistry()
+	// "Spell" field
+	Spell&  types::get_Spell()
 	{
-		return m_OrderedRegistry;
+		return m_Spell;
 	}
 	
-	const OrderedRegistry&  types::get_OrderedRegistry() const
+	const Spell&  types::get_Spell() const
 	{
-		return m_OrderedRegistry;
+		return m_Spell;
 	}
 	
 	// "Spellbook" field
@@ -106,15 +106,15 @@ namespace cppgen
 		return m_Option;
 	}
 	
-	// "Spell" field
-	Spell&  types::get_Spell()
+	// "OrderedRegistry" field
+	OrderedRegistry&  types::get_OrderedRegistry()
 	{
-		return m_Spell;
+		return m_OrderedRegistry;
 	}
 	
-	const Spell&  types::get_Spell() const
+	const OrderedRegistry&  types::get_OrderedRegistry() const
 	{
-		return m_Spell;
+		return m_OrderedRegistry;
 	}
 	
 }
