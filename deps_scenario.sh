@@ -2,13 +2,14 @@
 
 deps_scenario()
 {
+	local THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 	local folderName=${PWD##*/}
 
-	source log.sh
+	source $THIS_DIR/log.sh
 	local log_prefix="-- [${folderName} deps_scenario script]: "
 
-	source dependencies.sh
-	source deps_config.sh
+	source $THIS_DIR/dependencies.sh
+	source $THIS_DIR/deps_config.sh
 
 	download_dependency "DataModelBuilder" "$depsLocation" "git@github.com:skalexey/DataModelBuilder.git"
 	download_dependency "vl_cpp_generator" "$depsLocation" "git@github.com:skalexey/vl_cpp_generator.git"
@@ -18,7 +19,7 @@ deps_scenario()
 
 	log_info "Spellbook: Build release vl_cpp_generator" " --"
 
-	source build.sh . release
+	source $THIS_DIR/build.sh . release
 	local retval=$?
 	if [ $retval -ne 0 ]; then
 		log_error "Error occured during vl_cpp_generator build process" " ---"
@@ -29,7 +30,7 @@ deps_scenario()
 	cd $enterDir
 
 	# deploy cpp generator
-	source deploy_cpp_generator.sh
+	source $THIS_DIR/deploy_cpp_generator.sh
 	local retval=$?
 	if [ $retval -ne 0 ]; then
 		exit 1	
