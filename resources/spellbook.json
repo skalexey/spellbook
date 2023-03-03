@@ -17,7 +17,9 @@
                     "all-bld-upd",
                     "sync",
                     "list",
-                    "check-projs"
+                    "check-projs",
+                    "dm",
+                    "lm"
                 ],
                 "registry": {
                     "cmake-project": {
@@ -164,6 +166,22 @@
                         "path": "~/Scripts/automation/all_build_deps/update_build_scripts.sh",
                         "alias": "all-bld-upd"
                     },
+                    "dm": {
+                        "proto": "Spell",
+                        "description": "This spell switches VSCode and other programs to use dark mode",
+                        "title": "Dark mode",
+                        "rules": "",
+                        "path": "~/Scripts/automation/desktop/set_dark_mode.sh",
+                        "alias": "dm"
+                    },
+                    "lm": {
+                        "proto": "Spell",
+                        "description": "This spell switches VSCode and other programs to use light mode",
+                        "title": "Light mode",
+                        "rules": "",
+                        "path": "~/Scripts/automation/desktop/set_light_mode.sh",
+                        "alias": "lm"
+                    },
                     "sync": {
                         "proto": "Spell",
                         "path": "~/Projects/Spellbook/sync_sb.sh",
@@ -195,7 +213,9 @@
             "add-cpp-module",
             "all-bld-upd",
             "sync",
-            "check-projs"
+            "check-projs",
+            "dm",
+            "lm"
         ]
     },
     "types": {
