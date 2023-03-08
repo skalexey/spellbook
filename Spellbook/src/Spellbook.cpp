@@ -198,7 +198,7 @@ std::optional<int> load_sb(spl::context& ctx)
 		update_sb_dir(sb_dir);
 		if (!utils::file::exists(sb_path))
 		{
-			if (auto erc = utils::file::copy_file(def_cfg_path, sb_path))
+			if (auto erc = utils::file::copy(def_cfg_path, sb_path))
 			{	// No default spellbook config found
 				if (erc == 3)
 				{
