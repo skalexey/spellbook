@@ -171,7 +171,7 @@
                         "description": "This spell switches VSCode and other programs to use dark mode",
                         "title": "Dark mode",
                         "rules": "",
-                        "path": "~/Scripts/automation/desktop/set_dark_mode.sh",
+                        "path": "~/Scripts/automation/desktop/switch_light_mode.sh dark",
                         "alias": "dm"
                     },
                     "lm": {
@@ -179,7 +179,7 @@
                         "description": "This spell switches VSCode and other programs to use light mode",
                         "title": "Light mode",
                         "rules": "",
-                        "path": "~/Scripts/automation/desktop/set_light_mode.sh",
+                        "path": "~/Scripts/automation/desktop/switch_light_mode.sh light",
                         "alias": "lm"
                     },
                     "sync": {
