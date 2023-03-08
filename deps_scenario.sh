@@ -19,7 +19,8 @@ deps_scenario()
 
 	log_info "Spellbook: Build release vl_cpp_generator" " --"
 
-	source $THIS_DIR/build.sh . release
+	source build.sh . release
+
 	local retval=$?
 	if [ $retval -ne 0 ]; then
 		log_error "Error occured during vl_cpp_generator build process" " ---"
