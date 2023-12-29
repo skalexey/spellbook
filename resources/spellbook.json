@@ -20,7 +20,11 @@
                     "check-projs",
                     "dm",
                     "lm",
-                    "gp"
+                    "gp",
+                    "say-hello",
+                    "gau",
+                    "gc",
+                    "ga"
                 ],
                 "registry": {
                     "build.sh": {
@@ -207,6 +211,34 @@
                         "proto": "Spell",
                         "path": "~/Scripts/automation/projects/check_git_projects.sh",
                         "alias": "check-projs"
+                    },
+                    "say-hello": {
+                        "proto": "Spell",
+                        "title": "Say hello to someone",
+                        "description": "Say hello to someone",
+                        "alias": "say-hello",
+                        "path": "~/Scripts/automation/say-hello.sh"
+                    },
+                    "gau": {
+                        "proto": "Spell",
+                        "title": "Git add untracked files",
+                        "description": "Ask user to add untracked files one by one",
+                        "alias": "gau",
+                        "path": "~/Scripts/include/git_utils.sh git_ask_add_untracked_files"
+                    },
+                    "gc": {
+                        "proto": "Spell",
+                        "title": "Git commit",
+                        "description": "Calls git commit -m \"Message\"",
+                        "alias": "gc",
+                        "path": "~/Scripts/include/git_utils.sh git_commit"
+                    },
+                    "ga": {
+                        "proto": "Spell",
+                        "title": "Git add --patch",
+                        "description": "Calls git add --patch for interactive one-by-one adding of changes",
+                        "alias": "ga",
+                        "path": "~/Scripts/include/git_utils.sh git_add_patch"
                     }
                 }
             }
@@ -223,9 +255,13 @@
             "all-bld-upd",
             "sync",
             "check-projs",
+            "say-hello",
             "dm",
             "lm",
-            "gp"
+            "gp",
+            "gau",
+            "gc",
+            "ga"
         ]
     },
     "types": {
