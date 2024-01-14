@@ -7,7 +7,7 @@
 #include "generated/content.h"
 #ifdef LOG_ON
 	LOG_TITLE("spell_factory");
-	SET_LOG_DEBUG(true);
+	SET_LOCAL_LOG_DEBUG(true);
 #endif
 
 namespace fs = std::filesystem;

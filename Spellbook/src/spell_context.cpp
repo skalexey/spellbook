@@ -10,7 +10,7 @@
 	#include <vl.h>
 	#include <DMBCore.h>
 LOG_TITLE("spell_context")
-SET_LOG_DEBUG(true);
+SET_LOCAL_LOG_DEBUG(true);
 #endif
 
 namespace spl

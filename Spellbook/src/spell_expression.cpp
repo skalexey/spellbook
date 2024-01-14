@@ -12,7 +12,7 @@
 
 #ifdef LOG_ON
 	LOG_TITLE("spell_expression")
-	SET_LOG_DEBUG(false);
+	SET_LOCAL_LOG_DEBUG(false);
 #endif
 
 namespace

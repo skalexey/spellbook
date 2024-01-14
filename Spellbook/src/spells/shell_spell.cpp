@@ -10,7 +10,7 @@
 
 #ifdef LOG_ON
 LOG_TITLE("shell_spell")
-SET_LOG_DEBUG(true)
+SET_LOCAL_LOG_DEBUG(true)
 #endif
 
 namespace fs = std::filesystem;

@@ -36,7 +36,7 @@
 #include "Spellbook.h"
 #ifdef LOG_ON
 LOG_TITLE("Spellbook")
-SET_LOG_DEBUG(true)
+SET_LOCAL_LOG_DEBUG(true)
 #endif
 
 #define COUT(msg1) std::cout << msg1
