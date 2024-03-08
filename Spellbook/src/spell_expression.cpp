@@ -1,6 +1,6 @@
 #include <algorithm>
 #include <iostream>
-#include <utils/Log.h>
+#include <utils/log.h>
 #include "generated/Spell.h"
 #include "generated/Option.h"
 #include "spell_options.h"

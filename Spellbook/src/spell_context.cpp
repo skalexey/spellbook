@@ -5,7 +5,7 @@
 #include "generated/Spell.h"
 #include "generated/content.h"
 #include "generated/types.h"
-#include <utils/Log.h>
+#include <utils/log.h>
 #ifdef LOG_ON
 	#include <vl.h>
 	#include <DMBCore.h>

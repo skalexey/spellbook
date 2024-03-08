@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include <unordered_map>
 #include <vl.h>
-#include <utils/Log.h>
+#include <utils/log.h>
 #include "spells/list_spell.h"
 #include "generated/content.h"
 #include "generated/types.h"

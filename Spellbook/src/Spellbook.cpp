@@ -21,7 +21,7 @@
 #include <string>
 #include <exception>
 #include <vl_fwd.h>
-#include <utils/Log.h>
+#include <utils/log.h>
 #include <utils/io_utils.h>
 #include <utils/file_utils.h>
 #include <DMBCore.h>

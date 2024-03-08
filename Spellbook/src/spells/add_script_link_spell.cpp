@@ -1,7 +1,7 @@
 #include <filesystem>
 #include <unordered_map>
 #include <vl.h>
-#include <utils/Log.h>
+#include <utils/log.h>
 #include <DMBCore.h>
 #include "spells/add_script_link_spell.h"
 #include "spells/script_link_spell.h"

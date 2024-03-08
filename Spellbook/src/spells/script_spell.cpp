@@ -1,4 +1,4 @@
-#include <utils/Log.h>
+#include <utils/log.h>
 #include "spells/script_spell.h"
 #ifdef LOG_ON
 	LOG_TITLE("script_spell")

@@ -1,4 +1,4 @@
-#include <utils/Log.h>
+#include <utils/log.h>
 #include <utils/file_utils.h>
 #include "spell_context.h"
 #include "spell_factory.h"

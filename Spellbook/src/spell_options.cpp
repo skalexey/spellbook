@@ -1,7 +1,7 @@
 #include <cctype>
 #include <string>
 #include <vl.h>
-#include <utils/Log.h>
+#include <utils/log.h>
 #include "spell_options.h"
 #include "generated/Option.h"
 #include "generated/OrderedRegistry.h"

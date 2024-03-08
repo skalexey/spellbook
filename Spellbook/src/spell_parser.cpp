@@ -4,7 +4,7 @@
 #include "spell_parser.h"
 #include "spell_context.h"
 #include "utils/string_utils.h"
-#include <utils/Log.h>
+#include <utils/log.h>
 #ifdef LOG_ON
 	LOG_TITLE("parser")
 #endif

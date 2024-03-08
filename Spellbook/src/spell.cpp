@@ -1,4 +1,4 @@
-#include <utils/Log.h>
+#include <utils/log.h>
 #include "spell_context.h"
 #include "spell.h"
 #include "generated/Option.h"

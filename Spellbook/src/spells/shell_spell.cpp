@@ -2,7 +2,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <algorithm>
-#include <utils/Log.h>
+#include <utils/log.h>
 #include "spells/shell_spell.h"
 #include "generated/Option.h"
 #include "generated/content.h"
