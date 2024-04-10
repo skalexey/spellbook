@@ -167,7 +167,7 @@
                         "description": "Push into a current branch without specifying remote and the branch name.",
                         "rules": "",
                         "alias": "gp",
-                        "path": "~/Scripts/include/git_utils.sh git_push"
+                        "path": "~/Scripts/invoke_function.sh ~/Scripts/include/git_utils.sh git_push"
                     },
                     "upd-all-build-scripts": {
                         "proto": "Spell",
