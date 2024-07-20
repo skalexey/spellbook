@@ -10,11 +10,11 @@ namespace cppgen
 	{
 		if (!m_data)
 			return;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return;
-		auto& data_obj = m_data->AsObject();
-		m_config = {vl::MakePtr(data_obj.Get("config"))};
+		auto& data_obj = m_data->as<vl::Object>();
 		m_spellbook = {vl::MakePtr(data_obj.Get("spellbook"))};
+		m_config = {vl::MakePtr(data_obj.Get("config"))};
 	}
 	
 	content::content(const vl::Var& data)
@@ -22,18 +22,18 @@ namespace cppgen
 	{
 		if (!m_data)
 			return;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return;
-		auto& data_obj = m_data->AsObject();
-		m_config = {vl::MakePtr(data_obj.Get("config"))};
+		auto& data_obj = m_data->as<vl::Object>();
 		m_spellbook = {vl::MakePtr(data_obj.Get("spellbook"))};
+		m_config = {vl::MakePtr(data_obj.Get("config"))};
 	}
 	
 	content::operator bool() const
 	{
 		if (!m_data)
 			return false;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return false;
 		return true;
 	}
@@ -42,9 +42,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Get(field_name);
 	}
 	
@@ -52,9 +52,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Has(field_name);
 	}
 	
@@ -62,31 +62,22 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.HasOwn(field_name);
 	}
 	
 	// Field access
-	// "script_links" field
-	vl::List& content::script_links()
+	// "spellbook" field
+	content::spellbook&  content::get_spellbook()
 	{
-		return const_cast<vl::List&>(get_script_links()); 
+		return m_spellbook;
 	}
 	
-	const vl::List& content::get_script_links() const
+	const content::spellbook&  content::get_spellbook() const
 	{
-		static vl::List empty_val = vl::emptyList;
-		if (!m_data)
-			return empty_val;
-		if (!m_data->IsObject())
-			return empty_val;
-		auto& data_obj = m_data->AsObject();
-		auto& data_script_links = data_obj.Get("script_links");
-		if (!data_script_links.IsList())
-			return empty_val;
-		return data_script_links.AsList();
+		return m_spellbook;
 	}
 	
 	// "config" field
@@ -100,18 +91,39 @@ namespace cppgen
 		return m_config;
 	}
 	
-	// "spellbook" field
-	content::spellbook&  content::get_spellbook()
+	// "script_links" field
+	vl::List& content::script_links()
 	{
-		return m_spellbook;
+		return const_cast<vl::List&>(get_script_links()); 
 	}
 	
-	const content::spellbook&  content::get_spellbook() const
+	const vl::List& content::get_script_links() const
 	{
-		return m_spellbook;
+		static vl::List empty_val = vl::emptyList;
+		if (!m_data)
+			return empty_val;
+		if (!m_data->is<vl::Object>())
+			return empty_val;
+		auto& data_obj = m_data->as<vl::Object>();
+		auto& data_script_links = data_obj.Get("script_links");
+		if (!data_script_links.IsList())
+			return empty_val;
+		return data_script_links.AsList();
 	}
 	
 	// Subclasses definitions begin
+	// Initializers
+	
+	content::spellbook::spellbook(const vl::VarPtr& data)
+		: Spellbook(data)
+	{
+	}
+	
+	content::spellbook::spellbook(const vl::Var& data)
+		: Spellbook(vl::MakePtr(data))
+	{
+	}
+	
 	// Initializers
 	
 	content::config::config(const vl::VarPtr& data)
@@ -128,7 +140,7 @@ namespace cppgen
 	{
 		if (!m_data)
 			return false;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return false;
 		return true;
 	}
@@ -137,9 +149,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Get(field_name);
 	}
 	
@@ -147,9 +159,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Has(field_name);
 	}
 	
@@ -157,72 +169,22 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.HasOwn(field_name);
 	}
 	
 	// Field access
-	// "shell_cmd" field
-	const std::string& content::config::shell_cmd() const
-	{
-		static std::string empty_val = "";
-		if (!m_data)
-			return empty_val;
-		if (!m_data->IsObject())
-			return empty_val;
-		auto& data_obj = m_data->AsObject();
-		auto& data_shell_cmd = data_obj.Get("shell_cmd");
-		if (!data_shell_cmd.IsString())
-			return empty_val;
-		return data_shell_cmd.AsString().Val();
-	}
-	
-	void content::config::set_shell_cmd(const std::string& value)
-	{
-		if (!m_data)
-			return;
-		if (!m_data->IsObject())
-			return;
-		auto& data_obj = m_data->AsObject();
-		data_obj.Set("shell_cmd", value);
-	}
-	
-	// "shell_spells_directory" field
-	const std::string& content::config::shell_spells_directory() const
-	{
-		static std::string empty_val = "";
-		if (!m_data)
-			return empty_val;
-		if (!m_data->IsObject())
-			return empty_val;
-		auto& data_obj = m_data->AsObject();
-		auto& data_shell_spells_directory = data_obj.Get("shell_spells_directory");
-		if (!data_shell_spells_directory.IsString())
-			return empty_val;
-		return data_shell_spells_directory.AsString().Val();
-	}
-	
-	void content::config::set_shell_spells_directory(const std::string& value)
-	{
-		if (!m_data)
-			return;
-		if (!m_data->IsObject())
-			return;
-		auto& data_obj = m_data->AsObject();
-		data_obj.Set("shell_spells_directory", value);
-	}
-	
 	// "python_spells_directory" field
 	const std::string& content::config::python_spells_directory() const
 	{
 		static std::string empty_val = "";
 		if (!m_data)
 			return empty_val;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return empty_val;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		auto& data_python_spells_directory = data_obj.Get("python_spells_directory");
 		if (!data_python_spells_directory.IsString())
 			return empty_val;
@@ -233,22 +195,60 @@ namespace cppgen
 	{
 		if (!m_data)
 			return;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		data_obj.Set("python_spells_directory", value);
 	}
 	
-	// Initializers
-	
-	content::spellbook::spellbook(const vl::VarPtr& data)
-		: Spellbook(data)
+	// "shell_spells_directory" field
+	const std::string& content::config::shell_spells_directory() const
 	{
+		static std::string empty_val = "";
+		if (!m_data)
+			return empty_val;
+		if (!m_data->is<vl::Object>())
+			return empty_val;
+		auto& data_obj = m_data->as<vl::Object>();
+		auto& data_shell_spells_directory = data_obj.Get("shell_spells_directory");
+		if (!data_shell_spells_directory.IsString())
+			return empty_val;
+		return data_shell_spells_directory.AsString().Val();
 	}
 	
-	content::spellbook::spellbook(const vl::Var& data)
-		: Spellbook(vl::MakePtr(data))
+	void content::config::set_shell_spells_directory(const std::string& value)
 	{
+		if (!m_data)
+			return;
+		if (!m_data->is<vl::Object>())
+			return;
+		auto& data_obj = m_data->as<vl::Object>();
+		data_obj.Set("shell_spells_directory", value);
+	}
+	
+	// "shell_cmd" field
+	const std::string& content::config::shell_cmd() const
+	{
+		static std::string empty_val = "";
+		if (!m_data)
+			return empty_val;
+		if (!m_data->is<vl::Object>())
+			return empty_val;
+		auto& data_obj = m_data->as<vl::Object>();
+		auto& data_shell_cmd = data_obj.Get("shell_cmd");
+		if (!data_shell_cmd.IsString())
+			return empty_val;
+		return data_shell_cmd.AsString().Val();
+	}
+	
+	void content::config::set_shell_cmd(const std::string& value)
+	{
+		if (!m_data)
+			return;
+		if (!m_data->is<vl::Object>())
+			return;
+		auto& data_obj = m_data->as<vl::Object>();
+		data_obj.Set("shell_cmd", value);
 	}
 	
 }

@@ -10,9 +10,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		m_spells = {vl::MakePtr(data_obj.Get("spells"))};
 	}
 	
@@ -21,9 +21,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		m_spells = {vl::MakePtr(data_obj.Get("spells"))};
 	}
 	
@@ -31,7 +31,7 @@ namespace cppgen
 	{
 		if (!m_data)
 			return false;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return false;
 		return true;
 	}
@@ -40,9 +40,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Get(field_name);
 	}
 	
@@ -50,9 +50,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Has(field_name);
 	}
 	
@@ -60,9 +60,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.HasOwn(field_name);
 	}
 	

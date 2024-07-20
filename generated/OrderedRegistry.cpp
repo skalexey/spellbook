@@ -10,9 +10,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		m_registry = {vl::MakePtr(data_obj.Get("registry"))};
 	}
 	
@@ -21,9 +21,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		m_registry = {vl::MakePtr(data_obj.Get("registry"))};
 	}
 	
@@ -31,7 +31,7 @@ namespace cppgen
 	{
 		if (!m_data)
 			return false;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return false;
 		return true;
 	}
@@ -40,9 +40,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Get(field_name);
 	}
 	
@@ -50,9 +50,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Has(field_name);
 	}
 	
@@ -60,24 +60,13 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.HasOwn(field_name);
 	}
 	
 	// Field access
-	// "registry" field
-	OrderedRegistry::registry&  OrderedRegistry::get_registry()
-	{
-		return m_registry;
-	}
-	
-	const OrderedRegistry::registry&  OrderedRegistry::get_registry() const
-	{
-		return m_registry;
-	}
-	
 	// "list" field
 	vl::List& OrderedRegistry::list()
 	{
@@ -89,13 +78,24 @@ namespace cppgen
 		static vl::List empty_val = vl::emptyList;
 		if (!m_data)
 			return empty_val;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return empty_val;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		auto& data_list = data_obj.Get("list");
 		if (!data_list.IsList())
 			return empty_val;
 		return data_list.AsList();
+	}
+	
+	// "registry" field
+	OrderedRegistry::registry&  OrderedRegistry::get_registry()
+	{
+		return m_registry;
+	}
+	
+	const OrderedRegistry::registry&  OrderedRegistry::get_registry() const
+	{
+		return m_registry;
 	}
 	
 	// Subclasses definitions begin
@@ -115,7 +115,7 @@ namespace cppgen
 	{
 		if (!m_data)
 			return false;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return false;
 		return true;
 	}
@@ -124,9 +124,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Get(field_name);
 	}
 	
@@ -134,9 +134,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Has(field_name);
 	}
 	
@@ -144,9 +144,9 @@ namespace cppgen
 	{
 		if (!m_data)
 			return vl::emptyVar;
-		if (!m_data->IsObject())
+		if (!m_data->is<vl::Object>())
 			return vl::emptyVar;
-		auto& data_obj = m_data->AsObject();
+		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.HasOwn(field_name);
 	}
 	

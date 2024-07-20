@@ -2,11 +2,11 @@
 
 namespace cppgen
 {
-	class private_t;
 	class OrderedRegistry;
 	class Spellbook;
 	class content;
-	class Spell;
 	class Option;
+	class Spell;
 	class types;
+	class private_t;
 }

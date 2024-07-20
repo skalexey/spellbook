@@ -27,21 +27,21 @@ namespace cppgen
 		}
 		
 		// Field access
-		// "Spell" field
-		Spell&  get_Spell();
-		const Spell&  get_Spell() const;
-		
-		// "Spellbook" field
-		Spellbook&  get_Spellbook();
-		const Spellbook&  get_Spellbook() const;
+		// "OrderedRegistry" field
+		OrderedRegistry&  get_OrderedRegistry();
+		const OrderedRegistry&  get_OrderedRegistry() const;
 		
 		// "Option" field
 		Option&  get_Option();
 		const Option&  get_Option() const;
 		
-		// "OrderedRegistry" field
-		OrderedRegistry&  get_OrderedRegistry();
-		const OrderedRegistry&  get_OrderedRegistry() const;
+		// "Spellbook" field
+		Spellbook&  get_Spellbook();
+		const Spellbook&  get_Spellbook() const;
+		
+		// "Spell" field
+		Spell&  get_Spell();
+		const Spell&  get_Spell() const;
 		
 	protected:
 		// Data getter for internal use
@@ -51,10 +51,10 @@ namespace cppgen
 	
 	private:
 		// Data members
-		class Spell m_Spell;
-		class Spellbook m_Spellbook;
-		class Option m_Option;
 		class OrderedRegistry m_OrderedRegistry;
+		class Option m_Option;
+		class Spellbook m_Spellbook;
+		class Spell m_Spell;
 		vl::VarPtr m_data;
 	};
 }
