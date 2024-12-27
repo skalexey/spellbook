@@ -2,7 +2,7 @@
 #include "spells/script_spell.h"
 #ifdef LOG_ON
 	LOG_TITLE("script_spell")
-	SET_LOCAL_LOG_DEBUG(true)
+	SET_LOCAL_LOG_LEVEL(debug)
 #endif
 
 namespace spl

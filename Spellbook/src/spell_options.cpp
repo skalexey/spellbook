@@ -8,7 +8,7 @@
 
 #ifdef LOG_ON
 	LOG_TITLE("spell_options")
-	SET_LOCAL_LOG_DEBUG(true)
+	SET_LOCAL_LOG_LEVEL(debug)
 #endif
 
 namespace
@@ -31,36 +31,34 @@ namespace spl
 		option_list create_list(const cppgen::OrderedRegistry& options_data, const args_list& args)
 		{
 			option_list l;
+			auto i = 0;
 			if (options_data)
 				if (auto& registry = options_data.get_registry())
 					if (auto& list = options_data.get_list())
-						for (int i = 0; i < args.size(); i++)
+						for (; i < list.Size(); i++)
 						{
-							if (list.Size() > i)
+							auto& option_alias = list.At(i).as<vl::String>().Val();
+							if (auto opt_data = registry.get_data(option_alias).as<vl::Object>())
 							{
-								auto& option_alias = list.At(i).AsString().Val();
-								if (auto opt_data = registry.get_data(option_alias).AsObject())
+								if (auto option = cppgen::Option(opt_data.Copy()))
 								{
-									if (auto option = cppgen::Option(opt_data.Copy()))
+									if (args.size() > i)
 									{
-										if (args.size() > i)
-										{
-											option.set_value(args[i]);
-											l.add(option_alias, option);
-										}
-									}
-									else
-									{
-										LOCAL_ERROR("Option '" << option_alias << "' does not have a definition or the type of the definition is not an Object");
+										option.set_value(args[i]);
+										l.add(option_alias, option);
 									}
 								}
-							}
-							else
-							{
-								auto o = create_unnamed_option(args[i], i);
-								l.add(o.alias(), o);
+								else
+								{
+									LOCAL_ERROR("Option '" << option_alias << "' does not have a definition or the type of the definition is not an Object");
+								}
 							}
 						}
+			for (; i < args.size(); i++)
+			{
+				auto o = create_unnamed_option(args[i], i);
+				l.add(o.alias(), o);
+			}
 			return l;
 		}
 

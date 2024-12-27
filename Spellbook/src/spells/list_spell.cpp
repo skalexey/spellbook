@@ -24,7 +24,7 @@ namespace spl
 		auto spells = ctx.get_content_data().get_spellbook().get_spells();
 		auto& list = spells.get_list();
 		for (int i = 0; i < list.Size(); i++)
-			MSG(list.At(i).AsString().Val());
+			MSG(list.At(i).as<vl::String>().Val());
 		return base::erc::OK;
 	}
 

@@ -36,7 +36,7 @@
 #include "Spellbook.h"
 #ifdef LOG_ON
 LOG_TITLE("Spellbook")
-SET_LOCAL_LOG_DEBUG(true)
+SET_LOCAL_LOG_LEVEL(debug)
 #endif
 
 #define COUT(msg1) std::cout << msg1
@@ -60,7 +60,7 @@ bool request_argument(cppgen::Option& opt)
 	{
 		utils::input::getline(std::cin, val);
 		if (!utils::input::last_getline_valid)
-			if (utils::input::last_command == "~skip")
+			if (utils::input::last_command() == "~skip")
 				return false;
 		if (val.empty())
 		{
@@ -87,7 +87,7 @@ bool request_argument(spl::spell_expression& ex, cppgen::Option& opt)
 	auto& args = ex.args();
 	auto it = args.find(alias);
 	if (it == args.end())
-		return request_argument(args.add(alias, cppgen::Option(opt.get_data()->Copy())));
+		return request_argument((*args.add(alias, cppgen::Option(opt.get_data().Copy())).first).second);
 	auto& arg = (*it).second;
 	if (arg.value().empty()) // The argument has not been given, so stop the process
 		return request_argument(arg);
@@ -117,12 +117,12 @@ std::optional<int> load_sb(spl::context& ctx)
 
 	auto update_sb_dir = [&](const std::string& new_dir)
 	{
-		auto& data = cfg_model.GetContent().GetData();
+		auto& data = cfg_model.Content().Data();
 		if (fs::path(new_dir) == fs::temp_directory_path())
 			data.Set(sb_dir_field_name, "");
 		else
 		{
-			if (data.Get(sb_dir_field_name).AsString().Val() != new_dir)
+			if (data.Get(sb_dir_field_name).as<vl::String>().Val() != new_dir)
 			{
 				data.Set(sb_dir_field_name, new_dir);
 				cfg_model.Store(cfg_path.string(), { true });
@@ -130,7 +130,7 @@ std::optional<int> load_sb(spl::context& ctx)
 		}
 	};
 
-	auto sb_dir = cfg_model.GetContent().Get(sb_dir_field_name).AsString().Val();
+	auto sb_dir = cfg_model.GetContent().Get(sb_dir_field_name).as<vl::String>().Val();
 	fs::path sb_path = sb_dir.empty() ? fs::temp_directory_path() / sb_fname : fs::path(sb_dir) / sb_fname;
 	bool created = utils::file::exists(sb_path);
 	while (!created)
@@ -171,9 +171,9 @@ std::optional<int> load_sb(spl::context& ctx)
 
 				if (!utils::input::last_getline_valid)
 				{
-					if (utils::input::last_command == "~exit")
+					if (utils::input::last_command() == "~exit")
 						return 0;
-					else if (utils::input::last_command == "~skip")
+					else if (utils::input::last_command() == "~skip")
 						break;
 				}
 				auto p = fs::path(dir);

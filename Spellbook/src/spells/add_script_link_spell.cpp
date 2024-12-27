@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <vl.h>
 #include <utils/log.h>
+#include <utils/assert.h>
 #include <DMBCore.h>
 #include "spells/add_script_link_spell.h"
 #include "spells/script_link_spell.h"
@@ -40,12 +41,12 @@ namespace spl
 	const add_script_link_spell::initializer add_script_link_spell::m_initializer(
 		"add-script-spell", [] (spl::context& ctx) {
 			auto content = ctx.get_content_data();
-			auto content_data = content.get_data()->AsObject();
+			auto content_data = content.get_data()->as<vl::Object>();
 			if (!content_data.Has("script_links"))
 				return;
-			auto links_list = content.get_data("script_links").AsList();
+			auto links_list = content.get_data("script_links").as<vl::List>();
 			for (int i = 0; i < links_list.Size(); i++)
-				spell_factory::register_spell<script_link_spell>(links_list.At(i).AsString().Val());
+				spell_factory::register_spell<script_link_spell>(links_list.At(i).as<vl::String>().Val());
 		});
 
 	int add_script_link_spell::cast(const option_list& args, spl::context& ctx)
@@ -72,9 +73,10 @@ namespace spl
 				new_spell_alias = p.stem().string();
 			else
 				new_spell_alias = path;
-			auto& alias_opt = alias_it == args.end() ?
-				args_copy.add("alias", cppgen::Option(get_data().get_options().get_registry().get_data("alias")))
-				: (*alias_it).second;
+			auto& alias_opt_it = alias_it == args.end() ?
+				args_copy.add("alias", cppgen::Option(get_data().get_options().get_registry().get_data("alias"))).first
+				: alias_it;
+			auto& alias_opt = (*alias_opt_it).second;
 			alias_opt.set_value(new_spell_alias);
 		}
 
@@ -87,20 +89,23 @@ namespace spl
 		
 		// Get the newly created data from the registry
 		auto& registry = spells.get_registry();
-		auto& registry_data = registry.get_data()->AsObject();
+		auto& registry_data = registry.data().as<vl::Object>();
 		
 		if (!registry_data.Has(new_spell_alias))
 			return erc::REGISTRY_ERROR;
 
+		ASSERT_NONCONST(registry_data);
 		// Add path field to the created spell
-		auto& new_spell_data = registry_data.Get(new_spell_alias).AsObject();
+		auto& new_spell_data = registry_data.Get(new_spell_alias).as<vl::Object>();
+		// Check statically if it is const or not and somehow notify the building user
+		ASSERT_NONCONST(new_spell_data);
 		new_spell_data.Set("path", args_copy.get_value("path").value());
 
 		// Add spell to script_links registry
-		auto content_data = content.get_data()->AsObject();
+		auto content_data = content.data()->as<vl::Object>();
 		auto& script_links_data = (content_data.Has("script_links") ? 
 			content_data.Get("script_links") : content_data.Set("script_links", vl::List())
-			).AsList();
+			).as<vl::List>();
 		script_links_data.Add(new_spell_alias);
 
 		// Store DB

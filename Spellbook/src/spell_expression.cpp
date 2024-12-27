@@ -12,7 +12,7 @@
 
 #ifdef LOG_ON
 	LOG_TITLE("spell_expression")
-	SET_LOCAL_LOG_DEBUG(false);
+	SET_LOCAL_LOG_LEVEL(debug);
 #endif
 
 namespace
@@ -115,8 +115,8 @@ namespace spl
 					auto& list = options.get_list();
 					for (int i = 0; i < list.Size(); i++)
 					{
-						auto& alias = list.At(i).AsString().Val();
-						if (auto& opt_data = options.get_registry().get_data()->AsObject().Get(alias))
+						auto& alias = list.At(i).as<vl::String>().Val();
+						if (auto& opt_data = options.get_registry().get_data()->as<vl::Object>().Get(alias))
 						{
 							auto opt = cppgen::Option(opt_data);
 							if (!pred(ex, opt))

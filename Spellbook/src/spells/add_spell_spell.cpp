@@ -43,17 +43,17 @@ namespace spl
 		auto spells = ctx.get_content_data().get_spellbook().get_spells();
 		auto& alias = get_alias();
 		auto& registry = spells.get_registry();
-		auto& registry_data = registry.get_data()->AsObject();
+		auto& registry_data = registry.data().as<vl::Object>();
 		// Create a new spell object
 		vl::Object obj;
 		std::string new_spell_alias;
 		if (auto types = ctx.get_types_data())
 		{
 			auto spell_class = types.get_Spell();
-			obj.SetPrototype(spell_class.get_data()->AsObject());
+			obj.SetPrototype(spell_class.get_data()->as<vl::Object>());
 			auto& options = get_data().get_options().get_registry();
-			// spell_class.get_data()->AsObject().ForeachProp([&](auto& n, auto& v) {
-			options.get_data()->AsObject().ForeachProp([&](auto& n, auto& v) {
+			// spell_class.get_data()->as<vl::Object>().ForeachProp([&](auto& n, auto& v) {
+			options.get_data()->as<vl::Object>().ForeachProp([&](auto& n, auto& v) {
 				auto on_option_missed = [&] {
 					set_last_spell_msg(ctx, "option '" + n + "' is missed");
 					ret = erc::OPTION_MISSED;
