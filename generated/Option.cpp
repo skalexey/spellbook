@@ -27,19 +27,19 @@ namespace cppgen
 	const vl::Var& Option::get_data(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
-		return data_obj.Get(field_name);
+		return *data_obj.Get(field_name);
 	}
 	
 	bool Option::has_data(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Has(field_name);
 	}
@@ -47,9 +47,9 @@ namespace cppgen
 	bool Option::has_data_own(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.HasOwn(field_name);
 	}
@@ -65,9 +65,9 @@ namespace cppgen
 			return empty_val;
 		auto& data_obj = m_data->as<vl::Object>();
 		auto& data_default_value = data_obj.Get("default_value");
-		if (!data_default_value.IsString())
+		if (!data_default_value.is<vl::String>())
 			return empty_val;
-		return data_default_value.AsString().Val();
+		return data_default_value.as<vl::String>().Val();
 	}
 	
 	void Option::set_default_value(const std::string& value)
@@ -80,31 +80,6 @@ namespace cppgen
 		data_obj.Set("default_value", value);
 	}
 	
-	// "title" field
-	const std::string& Option::title() const
-	{
-		static std::string empty_val = "";
-		if (!m_data)
-			return empty_val;
-		if (!m_data->is<vl::Object>())
-			return empty_val;
-		auto& data_obj = m_data->as<vl::Object>();
-		auto& data_title = data_obj.Get("title");
-		if (!data_title.IsString())
-			return empty_val;
-		return data_title.AsString().Val();
-	}
-	
-	void Option::set_title(const std::string& value)
-	{
-		if (!m_data)
-			return;
-		if (!m_data->is<vl::Object>())
-			return;
-		auto& data_obj = m_data->as<vl::Object>();
-		data_obj.Set("title", value);
-	}
-	
 	// "description" field
 	const std::string& Option::description() const
 	{
@@ -115,9 +90,9 @@ namespace cppgen
 			return empty_val;
 		auto& data_obj = m_data->as<vl::Object>();
 		auto& data_description = data_obj.Get("description");
-		if (!data_description.IsString())
+		if (!data_description.is<vl::String>())
 			return empty_val;
-		return data_description.AsString().Val();
+		return data_description.as<vl::String>().Val();
 	}
 	
 	void Option::set_description(const std::string& value)
@@ -130,6 +105,31 @@ namespace cppgen
 		data_obj.Set("description", value);
 	}
 	
+	// "title" field
+	const std::string& Option::title() const
+	{
+		static std::string empty_val = "";
+		if (!m_data)
+			return empty_val;
+		if (!m_data->is<vl::Object>())
+			return empty_val;
+		auto& data_obj = m_data->as<vl::Object>();
+		auto& data_title = data_obj.Get("title");
+		if (!data_title.is<vl::String>())
+			return empty_val;
+		return data_title.as<vl::String>().Val();
+	}
+	
+	void Option::set_title(const std::string& value)
+	{
+		if (!m_data)
+			return;
+		if (!m_data->is<vl::Object>())
+			return;
+		auto& data_obj = m_data->as<vl::Object>();
+		data_obj.Set("title", value);
+	}
+	
 	// "value" field
 	const std::string& Option::value() const
 	{
@@ -140,9 +140,9 @@ namespace cppgen
 			return empty_val;
 		auto& data_obj = m_data->as<vl::Object>();
 		auto& data_value = data_obj.Get("value");
-		if (!data_value.IsString())
+		if (!data_value.is<vl::String>())
 			return empty_val;
-		return data_value.AsString().Val();
+		return data_value.as<vl::String>().Val();
 	}
 	
 	void Option::set_value(const std::string& value)
@@ -165,9 +165,9 @@ namespace cppgen
 			return empty_val;
 		auto& data_obj = m_data->as<vl::Object>();
 		auto& data_alias = data_obj.Get("alias");
-		if (!data_alias.IsString())
+		if (!data_alias.is<vl::String>())
 			return empty_val;
-		return data_alias.AsString().Val();
+		return data_alias.as<vl::String>().Val();
 	}
 	
 	void Option::set_alias(const std::string& value)

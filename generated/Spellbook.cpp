@@ -13,7 +13,7 @@ namespace cppgen
 		if (!m_data->is<vl::Object>())
 			return;
 		auto& data_obj = m_data->as<vl::Object>();
-		m_spells = {vl::MakePtr(data_obj.Get("spells"))};
+		m_spells = {data_obj.GetDef("spells")};
 	}
 	
 	Spellbook::Spellbook(const vl::Var& data)
@@ -24,7 +24,7 @@ namespace cppgen
 		if (!m_data->is<vl::Object>())
 			return;
 		auto& data_obj = m_data->as<vl::Object>();
-		m_spells = {vl::MakePtr(data_obj.Get("spells"))};
+		m_spells = {data_obj.GetDef("spells")};
 	}
 	
 	Spellbook::operator bool() const
@@ -39,19 +39,19 @@ namespace cppgen
 	const vl::Var& Spellbook::get_data(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
-		return data_obj.Get(field_name);
+		return *data_obj.Get(field_name);
 	}
 	
 	bool Spellbook::has_data(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Has(field_name);
 	}
@@ -59,9 +59,9 @@ namespace cppgen
 	bool Spellbook::has_data_own(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.HasOwn(field_name);
 	}

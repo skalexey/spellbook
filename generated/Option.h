@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vl_fwd.h>
+#include <vl/var_ptr.h>
 
 namespace cppgen
 {
@@ -20,19 +21,22 @@ namespace cppgen
 		const vl::VarPtr& get_data() const {
 			return m_data;
 		}
+		vl::VarPtr data() {
+			return m_data;
+		}
 		
 		// Field access
 		// "default_value" field
 		const std::string& default_value() const;
 		void set_default_value(const std::string& value);
 		
-		// "title" field
-		const std::string& title() const;
-		void set_title(const std::string& value);
-		
 		// "description" field
 		const std::string& description() const;
 		void set_description(const std::string& value);
+		
+		// "title" field
+		const std::string& title() const;
+		void set_title(const std::string& value);
 		
 		// "value" field
 		const std::string& value() const;

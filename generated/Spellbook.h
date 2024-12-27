@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vl_fwd.h>
+#include <vl/var_ptr.h>
 
 #include "OrderedRegistry.h"
 
@@ -20,6 +21,9 @@ namespace cppgen
 		bool has_data_own(const std::string& field_name) const;
 		// Data getter for internal use
 		const vl::VarPtr& get_data() const {
+			return m_data;
+		}
+		vl::VarPtr data() {
 			return m_data;
 		}
 		

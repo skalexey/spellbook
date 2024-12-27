@@ -13,7 +13,7 @@ namespace cppgen
 		if (!m_data->is<vl::Object>())
 			return;
 		auto& data_obj = m_data->as<vl::Object>();
-		m_options = {vl::MakePtr(data_obj.Get("options"))};
+		m_options = {data_obj.GetDef("options")};
 	}
 	
 	Spell::Spell(const vl::Var& data)
@@ -24,7 +24,7 @@ namespace cppgen
 		if (!m_data->is<vl::Object>())
 			return;
 		auto& data_obj = m_data->as<vl::Object>();
-		m_options = {vl::MakePtr(data_obj.Get("options"))};
+		m_options = {data_obj.GetDef("options")};
 	}
 	
 	Spell::operator bool() const
@@ -39,19 +39,19 @@ namespace cppgen
 	const vl::Var& Spell::get_data(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
-		return data_obj.Get(field_name);
+		return *data_obj.Get(field_name);
 	}
 	
 	bool Spell::has_data(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Has(field_name);
 	}
@@ -59,9 +59,9 @@ namespace cppgen
 	bool Spell::has_data_own(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.HasOwn(field_name);
 	}
@@ -77,9 +77,9 @@ namespace cppgen
 			return empty_val;
 		auto& data_obj = m_data->as<vl::Object>();
 		auto& data_rules = data_obj.Get("rules");
-		if (!data_rules.IsString())
+		if (!data_rules.is<vl::String>())
 			return empty_val;
-		return data_rules.AsString().Val();
+		return data_rules.as<vl::String>().Val();
 	}
 	
 	void Spell::set_rules(const std::string& value)
@@ -113,9 +113,9 @@ namespace cppgen
 			return empty_val;
 		auto& data_obj = m_data->as<vl::Object>();
 		auto& data_description = data_obj.Get("description");
-		if (!data_description.IsString())
+		if (!data_description.is<vl::String>())
 			return empty_val;
-		return data_description.AsString().Val();
+		return data_description.as<vl::String>().Val();
 	}
 	
 	void Spell::set_description(const std::string& value)
@@ -138,9 +138,9 @@ namespace cppgen
 			return empty_val;
 		auto& data_obj = m_data->as<vl::Object>();
 		auto& data_alias = data_obj.Get("alias");
-		if (!data_alias.IsString())
+		if (!data_alias.is<vl::String>())
 			return empty_val;
-		return data_alias.AsString().Val();
+		return data_alias.as<vl::String>().Val();
 	}
 	
 	void Spell::set_alias(const std::string& value)

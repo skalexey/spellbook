@@ -27,19 +27,19 @@ namespace cppgen
 	const vl::Var& private_t::get_data(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
-		return data_obj.Get(field_name);
+		return *data_obj.Get(field_name);
 	}
 	
 	bool private_t::has_data(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Has(field_name);
 	}
@@ -47,9 +47,9 @@ namespace cppgen
 	bool private_t::has_data_own(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.HasOwn(field_name);
 	}

@@ -13,10 +13,10 @@ namespace cppgen
 		if (!m_data->is<vl::Object>())
 			return;
 		auto& data_obj = m_data->as<vl::Object>();
-		m_OrderedRegistry = {vl::MakePtr(data_obj.Get("OrderedRegistry"))};
-		m_Option = {vl::MakePtr(data_obj.Get("Option"))};
-		m_Spellbook = {vl::MakePtr(data_obj.Get("Spellbook"))};
-		m_Spell = {vl::MakePtr(data_obj.Get("Spell"))};
+		m_OrderedRegistry = {data_obj.GetDef("OrderedRegistry")};
+		m_Spellbook = {data_obj.GetDef("Spellbook")};
+		m_Option = {data_obj.GetDef("Option")};
+		m_Spell = {data_obj.GetDef("Spell")};
 	}
 	
 	types::types(const vl::Var& data)
@@ -27,10 +27,10 @@ namespace cppgen
 		if (!m_data->is<vl::Object>())
 			return;
 		auto& data_obj = m_data->as<vl::Object>();
-		m_OrderedRegistry = {vl::MakePtr(data_obj.Get("OrderedRegistry"))};
-		m_Option = {vl::MakePtr(data_obj.Get("Option"))};
-		m_Spellbook = {vl::MakePtr(data_obj.Get("Spellbook"))};
-		m_Spell = {vl::MakePtr(data_obj.Get("Spell"))};
+		m_OrderedRegistry = {data_obj.GetDef("OrderedRegistry")};
+		m_Spellbook = {data_obj.GetDef("Spellbook")};
+		m_Option = {data_obj.GetDef("Option")};
+		m_Spell = {data_obj.GetDef("Spell")};
 	}
 	
 	types::operator bool() const
@@ -45,19 +45,19 @@ namespace cppgen
 	const vl::Var& types::get_data(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
-		return data_obj.Get(field_name);
+		return *data_obj.Get(field_name);
 	}
 	
 	bool types::has_data(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.Has(field_name);
 	}
@@ -65,9 +65,9 @@ namespace cppgen
 	bool types::has_data_own(const std::string& field_name) const
 	{
 		if (!m_data)
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		if (!m_data->is<vl::Object>())
-			return vl::emptyVar;
+			return vl::EmptyVar();
 		auto& data_obj = m_data->as<vl::Object>();
 		return data_obj.HasOwn(field_name);
 	}
@@ -84,17 +84,6 @@ namespace cppgen
 		return m_OrderedRegistry;
 	}
 	
-	// "Option" field
-	Option&  types::get_Option()
-	{
-		return m_Option;
-	}
-	
-	const Option&  types::get_Option() const
-	{
-		return m_Option;
-	}
-	
 	// "Spellbook" field
 	Spellbook&  types::get_Spellbook()
 	{
@@ -104,6 +93,17 @@ namespace cppgen
 	const Spellbook&  types::get_Spellbook() const
 	{
 		return m_Spellbook;
+	}
+	
+	// "Option" field
+	Option&  types::get_Option()
+	{
+		return m_Option;
+	}
+	
+	const Option&  types::get_Option() const
+	{
+		return m_Option;
 	}
 	
 	// "Spell" field
