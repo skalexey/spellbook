@@ -28,9 +28,16 @@
                     "gpl",
                     "i",
                     "pyrun",
-                    "pykill"
+                    "pykill",
+                    "bac"
                 ],
                 "registry": {
+                    "cmake-project": {
+                        "proto": "Spell",
+                        "description": "Create a new CMake project with options: build.sh, Test directory, library, executable",
+                        "rules": "copy(templates + \"/CMake/Project\", current_dir + \"/\" + opt_project_name); replace_in_files(current_dir + \"/\" + project_name, \"ProjectName\", opt_project_name);)",
+                        "alias": "cmake-project"
+                    },
                     "build.sh": {
                         "proto": "Spell",
                         "description": "Add a build.sh script to the current directory",
@@ -43,31 +50,67 @@
                             "registry": {
                                 "path": {
                                     "proto": "Option",
-                                    "description": "File path",
                                     "title": "Path",
+                                    "description": "File path",
                                     "alias": "path",
                                     "default_value": "."
                                 }
                             }
                         }
                     },
-                    "cmake-project": {
-                        "proto": "Spell",
-                        "description": "Create a new CMake project with options: build.sh, Test directory, library, executable",
-                        "rules": "copy(templates + \"/CMake/Project\", current_dir + \"/\" + opt_project_name); replace_in_files(current_dir + \"/\" + project_name, \"ProjectName\", opt_project_name);)",
-                        "alias": "cmake-project"
-                    },
-                    "pyrun": {
-                        "proto": "Spell",
-                        "title": "run.sh for Python",
-                        "description": "Run a Python script through run.sh with debugging and logging abilities.",
-                        "alias": "pyrun",
-                        "path": "~/Scripts/automation/pyrun.sh"
-                    },
                     "add-cpp-module": {
                         "proto": "Spell",
                         "path": "~/Scripts/automation/templates/add_cpp_module.sh",
                         "alias": "add-cpp-module"
+                    },
+                    "pyrun": {
+                        "proto": "Spell",
+                        "description": "Run a Python script through run.sh with debugging and logging abilities.",
+                        "title": "run.sh for Python",
+                        "alias": "pyrun",
+                        "path": "~/Scripts/automation/pyrun.sh"
+                    },
+                    "add-spell": {
+                        "proto": "Spell",
+                        "description": "Create and add a new spell to the Spellbook",
+                        "alias": "add-spell",
+                        "options": {
+                            "proto": "OrderedRegistry",
+                            "list": [
+                                "alias",
+                                "title",
+                                "description",
+                                "rules",
+                                "optoins"
+                            ],
+                            "registry": {
+                                "title": {
+                                    "proto": "Option",
+                                    "description": "Human-readable short description of a spell to display on screen",
+                                    "title": "Title",
+                                    "alias": "title"
+                                },
+                                "description": {
+                                    "proto": "Option",
+                                    "description": "Human-readable description of a spell to display on screen",
+                                    "title": "Description",
+                                    "alias": "description"
+                                },
+                                "rules": {
+                                    "proto": "Option",
+                                    "description": "A set of spells invocations: a string of expressions of the form <ex>(<a1>, <a2>, …, <an>) divided with semicolon. Supposed to be executed through Python. May be empty if a spell is atomic",
+                                    "title": "Rules",
+                                    "alias": "rules",
+                                    "default_value": ""
+                                },
+                                "alias": {
+                                    "proto": "Option",
+                                    "description": "Sequence of chars used to call the spell",
+                                    "title": "Alias",
+                                    "alias": "alias"
+                                }
+                            }
+                        }
                     },
                     "add-script-spell": {
                         "proto": "Spell",
@@ -86,79 +129,37 @@
                             "registry": {
                                 "path": {
                                     "proto": "Option",
-                                    "description": "Script path",
                                     "title": "Script path",
+                                    "description": "Script path",
                                     "alias": "path"
                                 },
                                 "alias": {
                                     "proto": "Option",
-                                    "description": "Script alias",
                                     "title": "Script alias",
+                                    "description": "Script alias",
                                     "alias": "alias",
                                     "default_value": ""
                                 },
-                                "description": {
-                                    "proto": "Option",
-                                    "title": "Description",
-                                    "description": "Human-readable description of a spell to display on screen",
-                                    "alias": "description",
-                                    "default_value": ""
-                                },
                                 "title": {
                                     "proto": "Option",
-                                    "title": "Title",
                                     "description": "Human-readable short description of a spell to display on screen",
+                                    "title": "Title",
                                     "alias": "title",
                                     "default_value": ""
                                 },
-                                "rules": {
-                                    "proto": "Option",
-                                    "title": "Rules",
-                                    "description": "A set of spells invocations: a string of expressions of the form <ex>(<a1>, <a2>, …, <an>) divided with semicolon. Supposed to be executed through Python. May be empty if a spell is atomic",
-                                    "alias": "rules",
-                                    "default_value": ""
-                                }
-                            }
-                        }
-                    },
-                    "add-spell": {
-                        "proto": "Spell",
-                        "description": "Create and add a new spell to the Spellbook",
-                        "alias": "add-spell",
-                        "options": {
-                            "proto": "OrderedRegistry",
-                            "list": [
-                                "alias",
-                                "title",
-                                "description",
-                                "rules",
-                                "optoins"
-                            ],
-                            "registry": {
                                 "description": {
                                     "proto": "Option",
-                                    "title": "Description",
                                     "description": "Human-readable description of a spell to display on screen",
-                                    "alias": "description"
-                                },
-                                "title": {
-                                    "proto": "Option",
-                                    "title": "Title",
-                                    "description": "Human-readable short description of a spell to display on screen",
-                                    "alias": "title"
+                                    "title": "Description",
+                                    "alias": "description",
+                                    "default_value": ""
                                 },
                                 "rules": {
                                     "proto": "Option",
-                                    "title": "Rules",
                                     "description": "A set of spells invocations: a string of expressions of the form <ex>(<a1>, <a2>, …, <an>) divided with semicolon. Supposed to be executed through Python. May be empty if a spell is atomic",
+                                    "title": "Rules",
                                     "alias": "rules",
                                     "default_value": ""
-                                },
-                                "alias": {
-                                    "proto": "Option",
-                                    "title": "Alias",
-                                    "description": "Sequence of chars used to call the spell",
-                                    "alias": "alias"
                                 }
                             }
                         }
@@ -170,6 +171,14 @@
                         "alias": "check-git-upd",
                         "path": "~/Scripts/automation/projects/check_git_updates.sh"
                     },
+                    "gp": {
+                        "proto": "Spell",
+                        "description": "Push into a current branch without specifying remote and the branch name.",
+                        "title": "Git push",
+                        "rules": "",
+                        "alias": "gp",
+                        "path": "~/Scripts/invoke_function.sh ~/Scripts/include/git_utils.sh git_push"
+                    },
                     "upd-all-build-scripts": {
                         "proto": "Spell",
                         "description": "",
@@ -177,100 +186,99 @@
                         "alias": "upd-all-build-scripts",
                         "path": "~/Scripts/automation/all_build_deps/update_build_scripts.sh"
                     },
-                    "gp": {
-                        "proto": "Spell",
-                        "title": "Git push",
-                        "description": "Push into a current branch without specifying remote and the branch name.",
-                        "rules": "",
-                        "alias": "gp",
-                        "path": "~/Scripts/invoke_function.sh ~/Scripts/include/git_utils.sh git_push"
-                    },
                     "all-bld-upd": {
                         "proto": "Spell",
                         "path": "~/Scripts/automation/all_build_deps/update_build_scripts.sh",
                         "alias": "all-bld-upd"
+                    },
+                    "dm": {
+                        "proto": "Spell",
+                        "description": "This spell switches VSCode and other programs to use dark mode",
+                        "title": "Dark mode",
+                        "rules": "",
+                        "path": "~/Scripts/automation/desktop/light_mode_switcher/switch_light_mode.sh dark",
+                        "alias": "dm"
                     },
                     "sync": {
                         "proto": "Spell",
                         "path": "~/Projects/Spellbook/sync_sb.sh",
                         "alias": "sync"
                     },
-                    "dm": {
-                        "proto": "Spell",
-                        "title": "Dark mode",
-                        "description": "This spell switches VSCode and other programs to use dark mode",
-                        "rules": "",
-                        "path": "~/Scripts/automation/desktop/light_mode_switcher/switch_light_mode.sh dark",
-                        "alias": "dm"
-                    },
                     "lm": {
                         "proto": "Spell",
-                        "title": "Light mode",
                         "description": "This spell switches VSCode and other programs to use light mode",
+                        "title": "Light mode",
                         "rules": "",
                         "path": "~/Scripts/automation/desktop/light_mode_switcher/switch_light_mode.sh light",
                         "alias": "lm"
                     },
                     "list": {
                         "proto": "Spell",
-                        "title": "Spell list",
                         "description": "Shows the list of all registered spells",
+                        "title": "Spell list",
                         "rules": "-",
                         "alias": "list"
+                    },
+                    "gpl": {
+                        "proto": "Spell",
+                        "description": "Pull with stash and rebase",
+                        "title": "Git pull",
+                        "alias": "gpl",
+                        "path": "~/Scripts/invoke_function.sh ~/Scripts/include/git_utils.sh git_pull"
                     },
                     "check-projs": {
                         "proto": "Spell",
                         "path": "~/Scripts/automation/projects/check_git_projects.sh",
                         "alias": "check-projs"
                     },
-                    "gpl": {
-                        "proto": "Spell",
-                        "title": "Git pull",
-                        "description": "Pull with stash and rebase",
-                        "alias": "gpl",
-                        "path": "~/Scripts/invoke_function.sh ~/Scripts/include/git_utils.sh git_pull"
-                    },
                     "say-hello": {
                         "proto": "Spell",
-                        "title": "Say hello to someone",
                         "description": "Say hello to someone",
+                        "title": "Say hello to someone",
                         "alias": "say-hello",
                         "path": "~/Scripts/automation/say-hello.sh"
                     },
                     "gau": {
                         "proto": "Spell",
-                        "title": "Git add untracked files",
                         "description": "Ask user to add untracked files one by one",
+                        "title": "Git add untracked files",
                         "alias": "gau",
                         "path": "~/Scripts/invoke_function.sh ~/Scripts/include/git_utils.sh git_ask_add_untracked_files"
                     },
                     "gc": {
                         "proto": "Spell",
-                        "title": "Git commit",
                         "description": "Calls git commit -m \"Message\"",
+                        "title": "Git commit",
                         "alias": "gc",
                         "path": "~/Scripts/invoke_function.sh ~/Scripts/include/git_utils.sh git_commit"
                     },
                     "ga": {
                         "proto": "Spell",
-                        "title": "Git add --patch",
                         "description": "Calls git add --patch for interactive one-by-one adding of changes",
+                        "title": "Git add --patch",
                         "alias": "ga",
-                        "path": "~/Scripts/invoke_function.sh ~/Scripts/include/git_utils.sh git_add_patch"
+                        "path": "/mnt/c/Users/skoro/Scripts/invoke_function.sh /mnt/c/Users/skoro/Scripts/include/git_utils.sh git_add_smart"
                     },
                     "i": {
                         "proto": "Spell",
-                        "title": "Invoke Script Function",
                         "description": "Invokes a function defined in a given script. Usage: ~/Scripts/invoke_function.sh <script.sh <command>\"",
+                        "title": "Invoke Script Function",
                         "alias": "i",
                         "path": "~/Scripts/invoke_function.sh"
                     },
                     "pykill": {
                         "proto": "Spell",
-                        "title": "Kill the Python",
                         "description": "Kill the Python process",
+                        "title": "Kill the Python",
                         "alias": "pykill",
                         "path": "~/Scripts/automation/python/pykill.sh"
+                    },
+                    "bac": {
+                        "proto": "Spell",
+                        "description": "Backup a directory or a file at default backup directory if provided, or at given path.",
+                        "title": "Backup",
+                        "alias": "bac",
+                        "path": "~/Scripts/automation/backup/bac.sh"
                     }
                 }
             }
@@ -297,7 +305,8 @@
             "gpl",
             "i",
             "pyrun",
-            "pykill"
+            "pykill",
+            "bac"
         ]
     },
     "types": {
@@ -305,17 +314,17 @@
             "list": [],
             "registry": {}
         },
+        "Option": {
+            "default_value": "",
+            "title": "",
+            "description": "",
+            "value": "",
+            "alias": ""
+        },
         "Spellbook": {
             "spells": {
                 "proto": "OrderedRegistry"
             }
-        },
-        "Option": {
-            "default_value": "",
-            "description": "",
-            "title": "",
-            "value": "",
-            "alias": ""
         },
         "Spell": {
             "rules": "",
