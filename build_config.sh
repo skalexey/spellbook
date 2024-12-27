@@ -3,7 +3,7 @@
 source external_config.sh
 
 buildFolderPrefix="Build"
-extraArg=" -DDEPS=${depsLocation}"
+extraArg=" "
 extraArgWin=$extraArg
 extraArgMac=$extraArg
 buildConfig="Debug"
