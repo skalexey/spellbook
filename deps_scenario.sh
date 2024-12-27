@@ -18,8 +18,7 @@ deps_scenario()
 	cd $depsLocation/vl_cpp_generator
 
 	log_info "Spellbook: Build release vl_cpp_generator" " --"
-
-	source build.sh . release
+	source build_and_deploy.sh
 
 	local retval=$?
 	if [ $retval -ne 0 ]; then
@@ -28,14 +27,13 @@ deps_scenario()
 	else
 		log_success "vl_cpp_generator has been successfully built" " ---"
 	fi
-	cd $enterDir
 
-	# deploy cpp generator
-	source $THIS_DIR/deploy_cpp_generator.sh
 	local retval=$?
 	if [ $retval -ne 0 ]; then
 		exit 1	
 	fi
+
+	cd $enterDir
 
 	local genDir="generated"
 
