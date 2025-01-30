@@ -44,7 +44,7 @@ SET_LOCAL_LOG_LEVEL(debug)
 
 namespace fs = std::filesystem;
 
-const fs::path app_data_path = utils::file::app_data_directory_path("sb");
+const fs::path app_data_path = utils::file::app_data_directory_path("Spellbook");
 const fs::path cfg_path = app_data_path / "sb_config.json";
 const fs::path def_cfg_path = app_data_path / "spellbook_default.json";
 
