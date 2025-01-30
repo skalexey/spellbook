@@ -44,8 +44,9 @@ SET_LOCAL_LOG_LEVEL(debug)
 
 namespace fs = std::filesystem;
 
-const fs::path cfg_path = fs::temp_directory_path() / "sb_config.json";
-const fs::path def_cfg_path = fs::temp_directory_path() / "spellbook_default.json";
+const fs::path app_data_path = utils::file::app_data_directory_path("sb");
+const fs::path cfg_path = app_data_path / "sb_config.json";
+const fs::path def_cfg_path = app_data_path / "spellbook_default.json";
 
 bool request_argument(cppgen::Option& opt)
 {
@@ -118,11 +119,11 @@ std::optional<int> load_sb(spl::context& ctx)
 	auto update_sb_dir = [&](const std::string& new_dir)
 	{
 		auto& data = cfg_model.Content().Data();
-		if (fs::path(new_dir) == fs::temp_directory_path())
+		if (fs::path(new_dir) == app_data_path)
 			data.Set(sb_dir_field_name, "");
 		else
 		{
-			if (data.Get(sb_dir_field_name).as<vl::String>().Val() != new_dir)
+			if (data.Get(sb_dir_field_name, "").as<vl::String>().Val() != new_dir)
 			{
 				data.Set(sb_dir_field_name, new_dir);
 				cfg_model.Store(cfg_path.string(), { true });
@@ -130,8 +131,8 @@ std::optional<int> load_sb(spl::context& ctx)
 		}
 	};
 
-	auto sb_dir = cfg_model.GetContent().Get(sb_dir_field_name).as<vl::String>().Val();
-	fs::path sb_path = sb_dir.empty() ? fs::temp_directory_path() / sb_fname : fs::path(sb_dir) / sb_fname;
+	auto sb_dir = cfg_model.GetContent().GetData().Get(sb_dir_field_name, "").as<vl::String>().Val();
+	fs::path sb_path = sb_dir.empty() ? app_data_path / sb_fname : fs::path(sb_dir) / sb_fname;
 	bool created = utils::file::exists(sb_path);
 	while (!created)
 	{
@@ -148,7 +149,7 @@ std::optional<int> load_sb(spl::context& ctx)
 		{
 			msg1 = "Where is your spellbook?\nWould you like to specify a custom path? "
 				"Otherwise we will keep it in the app data directory located here:\n"
-				+ fs::temp_directory_path().string();
+				+ app_data_path.string();
 			msg2 = "Enter spellbook location directory or type 'skip' to use the "
 				"default folder or 'exit' to close the application";
 		}
@@ -181,10 +182,10 @@ std::optional<int> load_sb(spl::context& ctx)
 				{
 					if (utils::input::ask_user("There is no directory in the provided path. "
 						"Would you use temporary directory instead? "
-						"It is located here:\n" + fs::temp_directory_path().string())
+						"It is located here:\n" + app_data_path.string())
 						)
 					{
-						entered_path = fs::temp_directory_path();
+						entered_path = app_data_path;
 						sb_dir = "";
 					}
 				}
